@@ -1,0 +1,4 @@
+*
+!*.php.sample
+!config.php
+!.gitignore

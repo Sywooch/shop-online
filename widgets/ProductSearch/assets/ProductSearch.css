@@ -1,0 +1,114 @@
+.form_panel {
+    background-color: #eff0f0;
+    border-radius: 6px;
+    color: #484848;
+    padding: 20px 20px 5px 20px;
+}
+.form_input {
+    padding: 6px 6px 6px 6px;
+    background-color: #ffffff;
+    border: 2px solid #d7d7d7;
+    border-radius: 6px;
+    height: 36px;
+    line-height: 36px;
+    outline: none;
+}
+
+.product_search {
+    width: 100%;
+}
+.product_search_block {
+    display: table-row;
+    position: relative;
+    overflow: hidden;
+}
+.product_search_block_label {
+    display: table-cell;
+    width: 60px;
+}
+.product_search_block_query {
+    display: table-cell;
+    position: relative;
+}
+
+.product_search_input {
+    display: table-cell;
+    width: 100%;
+    margin: 0;
+    padding: 6px 36px 6px 6px;
+}
+
+.product_search_button {
+    position: absolute;
+    top: 6px;
+    right: 2px;
+
+    font-size: 18px;
+    color: #b7b7b7;
+    background-color: transparent;
+    border: none;
+    outline: none;
+}
+
+.product_search_filter_block {
+    margin-top: 10px;
+}
+.product_search_filter_handler {
+    display: none;
+}
+.product_search_filter {
+    display: none;
+    border-top: 1px solid #d7d7d7;
+    padding: 10px 0;
+}
+.product_search_filter_handler:checked + .product_search_filter {
+    display: block;
+}
+.product_search_filter_handler:checked + .product_search_filter + .product_search_filter_handlers > .product_search_filter_handler_show {
+    display: none;
+}
+.product_search_filter_handler:checked + .product_search_filter + .product_search_filter_handlers > .product_search_filter_handler_show + .product_search_filter_handler_hide {
+    display: inline-block;
+}
+
+.product_search_filter_handlers {
+    text-align: right;
+}
+.product_search_filter_handler_hide {
+    display: none;
+}
+.product_search_filter_handler_show {
+    display: inline-block;
+}
+
+.product_search_filter_handler_label {
+    margin: 0;
+    border-bottom: 1px dashed #a7a7a7;
+    font-weight: normal;
+}
+
+/* filters */
+.product_search_filter_priceLow,
+.product_search_filter_priceHigh {
+    margin-right: 10px;
+    width: 80px;
+    text-align: right;
+}
+.product_search_filter_tag_link {
+}
+.product_search_filter_tag_link:hover {
+    text-decoration: none;
+    border-bottom: 1px dashed #018ccd;
+}
+
+.product_search_filter_checkboxes {
+    float: left;
+    padding-top: 5px;
+    padding-left: 10px;
+}
+@media (min-width: 768px) {
+    .product_search_filter_checkboxes {
+        padding-left: 60px;
+    }
+}
+

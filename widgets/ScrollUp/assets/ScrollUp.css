@@ -1,0 +1,7 @@
+.btn-scroll-up {
+    display: none;
+    position: fixed;
+    right: 50px;
+    bottom: 50px;
+    z-index: 3000;
+}

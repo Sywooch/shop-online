@@ -41,7 +41,7 @@ class AliExpressParser
         curl_setopt($ch, CURLOPT_URL, $url);
 //        curl_setopt($ch, CURLOPT_PROXY, $proxy);
         //curl_setopt($ch, CURLOPT_PROXYUSERPWD, $proxyauth);
-        curl_setopt($ch, CURLOPT_FOLLOWLOCATION, 1);
+//        curl_setopt($ch, CURLOPT_FOLLOWLOCATION, 1);
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
         curl_setopt($ch, CURLOPT_HEADER, 1);
         curl_setopt($ch, CURLOPT_USERAGENT,
@@ -63,8 +63,19 @@ class AliExpressParser
     {
         if ($reload || !$this->_data) {
             $this->_data = $this->download($url);
+            while ($this->_data && !$this->parseName($this->_data)) {
+                $this->_data = $this->download($this->parseLocation($this->_data));
+            }
         }
         return $this->_data;
+    }
+
+    protected function parseLocation($data)
+    {
+        if (preg_match('#Location:[\s]*([^\s\r\n]+)#i', $data, $match)) {
+            return $match[1];
+        }
+        return null;
     }
 
     protected function parseName($data)

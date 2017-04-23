@@ -3,6 +3,7 @@
 namespace app\models;
 
 use yii\db\ActiveRecord;
+use yii\db\Expression;
 
 class Link extends ActiveRecord
 {
@@ -38,7 +39,7 @@ class Link extends ActiveRecord
 
     public static function getNextLink($delete = false)
     {
-        $model = self::find()->one();
+        $model = self::find()->orderBy(new Expression('rand()'))->one();
         if (!$model) {
             return null;
         }

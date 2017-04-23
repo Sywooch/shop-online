@@ -19,7 +19,8 @@ use yii\helpers\Url;
 
         <div class="col-xs-12 col-sm-7 col-md-7">
 <!--            <div style="padding-left: 20px;">-->
-                <a class="product_item__url" itemprop="url" title="Нажмите, что бы узнать больше!" href="<?= Url::toRoute([
+                <a data-pjax="0" class="product_item__url" itemprop="url" title="Нажмите, что бы узнать больше!"
+                   href="<?= Url::toRoute([
                     'site/product',
                     'city' => $this->context->city->url,
                     'seoUrl' => $model->seo_url,
@@ -34,7 +35,8 @@ use yii\helpers\Url;
                         </div>
                 -->
                 <div class="product_item__offer bg-primary" itemprop="offers" itemscope itemtype="http://schema.org/Offer">
-                    <a class="btn btn-lg btn-default pull-right">
+                    <a data-pjax="0" class="btn btn-lg btn-default pull-right" rel="nofollow" href="<?=
+                    Yii::$app->params['admitad'] . urlencode($model->url) ?>">
                         <i class="glyphicon glyphicon-shopping-cart"></i> Купить
                     </a>
                     <div class="product_item__price_block">
@@ -64,7 +66,7 @@ use yii\helpers\Url;
                 </table>
 
                 <div class="product_item__show_more pull-right">
-                    <a title="Нажмите, что бы узнать больше!" href="<?= Url::toRoute([
+                    <a data-pjax="0" title="Нажмите, что бы узнать больше!" href="<?= Url::toRoute([
                         'site/product',
                         'city' => $this->context->city->url,
                         'seoUrl' => $model->seo_url,

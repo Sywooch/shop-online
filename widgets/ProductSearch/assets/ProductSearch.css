@@ -94,10 +94,12 @@
     width: 80px;
     text-align: right;
 }
-.product_search_filter_tag_link {
+.product_search_filter_tag_link,
+.product_search_filter_tag_link:hover {
+    color: #018ccd;
+    text-decoration: none;
 }
 .product_search_filter_tag_link:hover {
-    text-decoration: none;
     border-bottom: 1px dashed #018ccd;
 }
 

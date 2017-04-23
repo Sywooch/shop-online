@@ -3,6 +3,7 @@ a, input, button, select, textarea {
     outline: none !important;
 }
 
+/*
 a:not(.btn), a:not(.btn):hover {
     color: #018ccd;
     text-decoration: none;
@@ -10,6 +11,7 @@ a:not(.btn), a:not(.btn):hover {
 a:not(.btn):hover {
     border-bottom: 1px dashed #018ccd;
 }
+*/
 
 footer ul {
     list-style: none;
@@ -53,6 +55,7 @@ footer ul li:before {
 }
 .product_item__url,
 .product_item__url:hover {
+    color: #018ccd;
     text-decoration: none;
 }
 .product_item__name {
@@ -89,6 +92,14 @@ footer ul li:before {
 }
 .product_item__show_more {
     margin: 0 10px;
+}
+.product_item__show_more_link,
+.product_item__show_more_link:hover {
+    color: #018ccd;
+    text-decoration: none;
+}
+.product_item__show_more_link:hover {
+    border-bottom: 1px dashed #018ccd;
 }
 .product_item__info {
     border-top: 1px dashed #999999;

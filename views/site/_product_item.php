@@ -66,7 +66,8 @@ use yii\helpers\Url;
                 </table>
 
                 <div class="product_item__show_more pull-right">
-                    <a data-pjax="0" title="Нажмите, что бы узнать больше!" href="<?= Url::toRoute([
+                    <a data-pjax="0" class="product_item__show_more_link" title="Нажмите, что бы узнать больше!"
+                       href="<?= Url::toRoute([
                         'site/product',
                         'city' => $this->context->city->url,
                         'seoUrl' => $model->seo_url,

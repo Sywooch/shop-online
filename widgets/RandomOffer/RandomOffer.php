@@ -36,9 +36,9 @@ class RandomOffer extends Widget
         $offers = [];
 
         $queryProducts = Product::find()
+            ->where(['moderated' => true])
             ->joinWith(['tags'])
-            ->andFilterWhere(['not', ['product.id' => $this->productId]])
-            ->andFilterWhere(['in', 'tag.name', $this->tags]);
+            ->andFilterWhere(['and', ['not', ['product.id' => $this->productId]], ['in', 'tag.name', $this->tags]]);
         $productCount = $queryProducts->count('product.id');
 
         $iterate = 2 * $this->count;

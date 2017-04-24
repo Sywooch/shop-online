@@ -158,7 +158,17 @@ class AdminController extends Controller
             Yii::$app->session->addFlash("error", 'Ошибка при добавлении товара! Вероятно, такой товар уже есть...');
         }
 
-        return $this->render('product-add', ['productAddForm' => $productAddForm]);
+        $countLink = Link::find()->count();
+        $statistic = Product::getStatistic();
+
+        return $this->render('product-add', [
+            'productAddForm' => $productAddForm,
+            'countLink' => $countLink,
+            'countModeratedToday' => $statistic['moderatedToday'],
+            'countTotalToday' => $statistic['totalToday'],
+            'countModerated' => $statistic['moderated'],
+            'countTotal' => $statistic['total'],
+        ]);
     }
 
     /**

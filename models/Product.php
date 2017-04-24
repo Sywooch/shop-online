@@ -27,7 +27,7 @@ class Product extends ActiveRecord
             [['url', 'seo_url', 'image', 'name'], 'filter', 'filter' => 'strip_tags'],
             [['url', 'seo_url', 'image', 'name'], 'string', 'max' => 255],
             [['description'], 'string', 'max' => 65535],
-            ['moderated', 'in', 'range' => [0,1]],
+            ['moderated', 'in', 'range' => [0, 1]],
             [['created', 'updated'], 'date', 'format' => 'yyyy-M-d H:m:s'],
             [['name', 'url', 'price', 'currency', 'image'], 'required'],
 //            [['pictures', 'properties'], 'safe'],
@@ -82,6 +82,7 @@ class Product extends ActiveRecord
 
     /**
      * Добавление товара по URL
+     *
      * @param $url
      * @return Product|null
      * @throws \yii\db\Exception
@@ -115,10 +116,28 @@ class Product extends ActiveRecord
 
             $transaction->commit();
             return $product;
-        }
-        catch (\Exception $e) {
+        } catch (\Exception $e) {
             $transaction->rollBack();
             return null;
         }
     }
+
+    /**
+     * Статистика по товарам на модерацию
+     *
+     * @return array|false
+     */
+    public static function getStatistic()
+    {
+        $sql = <<<sql
+SELECT
+    COUNT(CASE WHEN p.`moderated` = TRUE AND DATE(p.`created`) = :today THEN 1 ELSE NULL END) AS moderatedToday,
+    COUNT(CASE WHEN DATE(p.`created`) = :today THEN 1 ELSE NULL END) AS totalToday,
+    COUNT(CASE WHEN p.`moderated` = TRUE THEN 1 ELSE NULL END) AS moderated,
+    COUNT(p.`id`) AS total
+FROM `product` p
+sql;
+        return \Yii::$app->getDb()->createCommand($sql, [':today' => date("Y-m-d")])->queryOne();
+    }
+
 }

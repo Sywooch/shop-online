@@ -56,7 +56,8 @@ class Tag extends ActiveRecord
      */
     public static function add($tag)
     {
-        $model = self::find()->where('id = :tag OR name = :tag', [':tag' => $tag])->one();
+        $field = is_numeric($tag) ? 'id' : 'name';
+        $model = self::find()->where("{$field} = :tag", [':tag' => $tag])->one();
         if (!$model) {
             $model = new self();
             $model->name = $tag;

@@ -36,14 +36,14 @@ $this->params['breadcrumbs'] = [
 </div>
 
 <div class="row">
-    <div class="col-sm-6 col-md-4">
+    <div class="col-sm-6 col-md-3">
         <h4>Статистика</h4>
         <p class="bg-danger text-danger">Ссылок на товары: <span class="pull-right"><?= $countLink ?></span></p>
         <p class="bg-info text-info">Всего товаров в базе: <span class="pull-right"><?= $countTotal ?></span></p>
         <p class="bg-success text-success">Доступно покупателям:
             <span class="pull-right"><?= $countModerated ?></span></p>
     </div>
-    <div class="col-sm-6 col-md-4">
+    <div class="col-sm-6 col-md-3">
         <h4>Динамика наполнения</h4>
         <p class="bg-warning text-warning">Товаров на редактировании:
             <span class="pull-right"><?= $countTotal - $countModerated ?></span></p>
@@ -52,7 +52,7 @@ $this->params['breadcrumbs'] = [
         <p class="bg-success text-success">Отредактировано сегодня:
             <span class="pull-right"><?= $countModeratedToday ?></span></p>
     </div>
-    <div class="col-sm-12 col-md-4">
+    <div class="col-sm-12 col-md-6">
         <h4>М - мотивация ;-)</h4>
         <blockquote>
             Единственный способ сделать выдающуюся работу — искренне любить то, что делаешь.

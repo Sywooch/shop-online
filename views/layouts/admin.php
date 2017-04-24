@@ -27,7 +27,7 @@ $this->beginPage();
 
 NavBar::begin([
     'brandLabel' => Html::tag('span', '', ['class' => 'glyphicon glyphicon-home']),
-    'brandUrl' => false, //Yii::$app->homeUrl,
+    'brandUrl' => false,
     'options' => [
         'class' => 'navbar-inverse navbar-fixed-top',
     ],
@@ -35,7 +35,7 @@ NavBar::begin([
 echo Nav::widget([
     'encodeLabels' => false,
     'options' => ['class' => 'navbar-nav'],
-    'items' => [
+    'items' => Yii::$app->user->isGuest ? [] : [
         [
             'label' => Html::tag('span', '', ['class' => 'glyphicon glyphicon-cog']),
             'url' => ['index'],
@@ -113,11 +113,8 @@ NavBar::end();
 
 <footer class="footer">
     <div class="container">
-        <div class="col-xs-6">
-            <p>&copy; <?= Yii::$app->params['name'] ?>, 2015-<?= date('Y') ?>. Все права защищены.</p>
-        </div>
-        <div class="col-xs-6">
-            .
+        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+            <p>&copy; <?= Yii::$app->params['name'] ?>, 2011-<?= date('Y') ?>. Все права защищены.</p>
         </div>
     </div>
 </footer>

@@ -1,0 +1,7 @@
+<?php
+
+return [
+    'user_id' => null,
+    'group_id' => null,
+    'token' => '',
+];

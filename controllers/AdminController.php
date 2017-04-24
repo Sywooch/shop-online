@@ -2,7 +2,7 @@
 
 namespace app\controllers;
 
-use app\components\AliExpressParser;
+use app\components\Currency;
 use app\models\Link;
 use app\models\admin\LoginForm;
 use app\models\admin\ProductAddForm;
@@ -12,12 +12,16 @@ use app\models\Product;
 use app\models\Property;
 use app\models\Source;
 use app\models\Tag;
+use app\components\vkApi\Post;
+use app\components\vkApi\Vk;
 use Yii;
 use yii\base\Exception;
 use yii\data\ActiveDataProvider;
 use yii\filters\AccessControl;
 use yii\filters\VerbFilter;
 use yii\helpers\ArrayHelper;
+use yii\helpers\Html;
+use yii\helpers\Url;
 use yii\web\BadRequestHttpException;
 use yii\web\Controller;
 use yii\web\Response;
@@ -219,6 +223,37 @@ class AdminController extends Controller
 
                 $transaction->commit();
                 Yii::$app->session->addFlash("success", 'Товар обновлён!');
+
+                if ($product->moderated) {
+                    $text = Html::encode($product->name . ".\r\nЦена: " . Currency::kzt($product->price) . " тенге.");
+                    $link = Url::to(['site/product', 'id' => $product->id, 'seoUrl' => $product->seo_url,
+                        'city' => SiteController::CITY_DEFAULT], true);
+
+                    // Файл фотографии для отправки
+                    $fileInfo = pathinfo($product->image);
+                    $fileExt = ArrayHelper::getValue($fileInfo, 'extension', 'png');
+                    $fileName = Yii::getAlias('@runtime') . DIRECTORY_SEPARATOR . md5(time()) . '.' . $fileExt;
+                    file_put_contents($fileName, file_get_contents($product->image));
+
+                    try {
+                        $post = new Post(
+                            Vk::create(Yii::$app->params['vk']['token']),
+                            Yii::$app->params['vk']['user_id'],
+                            Yii::$app->params['vk']['group_id']
+                        );
+                        $post->post($text, $fileName, $link);
+                    } catch (Exception $e) {
+                        if (file_exists($fileName)) {
+                            unlink($fileName);
+                        }
+                        Yii::$app->session->addFlash("error", 'Ошибка при постинге ВК! ' . print_r($e->getMessage(), true));
+                    }
+
+                    if (file_exists($fileName)) {
+                        unlink($fileName);
+                    }
+                }
+
                 return $this->redirect([$back]);
 
             } catch (Exception $e) {

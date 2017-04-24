@@ -3,7 +3,7 @@ use yii\helpers\Html;
 use yii\helpers\Url;
 use yii\widgets\ActiveForm;
 
-/** @var $productAddForm \app\models\ProductAddForm */
+/** @var $productAddForm \app\models\admin\ProductAddForm */
 
 
 $this->params['breadcrumbs'] = [

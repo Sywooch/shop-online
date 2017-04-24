@@ -9,7 +9,6 @@ use yii\helpers\Url;
 use yii\widgets\ActiveForm;
 
 /** @var $product \app\models\Product */
-/** @var $productSearch \app\models\ProductSearchForm */
 /** @var $properties \app\models\Property[] */
 
 
@@ -73,10 +72,7 @@ $this->params['breadcrumbs'] = [
 
 <div class="row">
     <div class="col-sm-12"><?= $form->field($product, 'description')
-            ->widget(CKEditor::className(), [
-                'options' => ['rows' => 6],
-//                'preset' => 'basic'
-            ]) ?></div>
+            ->widget(CKEditor::className(), ['options' => ['rows' => 6]]) ?></div>
 </div>
 
 
@@ -96,7 +92,7 @@ $this->params['breadcrumbs'] = [
 
 <div class="text-center">
     <?= Html::submitButton('Сохранить', ['class' => 'btn btn-primary']) ?>
-    <?= Html::a('Удалить', ['product-delete', 'id' => $product->id, ],
+    <?= Html::a('Удалить', ['product-delete', 'id' => $product->id],
         ['class' => 'btn btn-danger', 'data-confirm' => 'Товар будет безвозвратно удален. Продолжить?']) ?>
 </div>
 <?php $form->end(); ?>

@@ -21,9 +21,11 @@ use yii\filters\AccessControl;
 use yii\filters\VerbFilter;
 use yii\helpers\ArrayHelper;
 use yii\helpers\Html;
+use yii\helpers\Json;
 use yii\helpers\Url;
 use yii\web\BadRequestHttpException;
 use yii\web\Controller;
+use yii\web\NotFoundHttpException;
 use yii\web\Response;
 use yii\web\UploadedFile;
 
@@ -207,8 +209,23 @@ class AdminController extends Controller
                 ) {
                     foreach ($properties as $property) {
                         if (!$property->save(false)) {
-                            throw new Exception();
+                            Yii::$app->session->addFlash("error",
+                                "Ошибка в свойстве: {$property->name} : {$property->value}");
                         }
+                    }
+                }
+
+                $dataProperty = Yii::$app->request->post('Property');
+                $newPropNames = ArrayHelper::getValue($dataProperty, 'name',[]);
+                $newPropValues = ArrayHelper::getValue($dataProperty, 'value',[]);
+                foreach ($newPropNames as $index => $newPropName) {
+                    $model = new Property();
+                    $model->product_id = $product->id;
+                    $model->name = $newPropName;
+                    $model->value = $newPropValues[$index];
+                    if (!$model->save(false)) {
+                        Yii::$app->session->addFlash("error",
+                            "Ошибка в свойстве: {$model->name} : {$model->value}");
                     }
                 }
 
@@ -299,6 +316,33 @@ class AdminController extends Controller
         }
 
         return $this->redirect([$back]);
+    }
+
+    /**
+     * Удаление свойства товара
+     *
+     * @param $id
+     * @return false|int
+     * @throws BadRequestHttpException
+     * @throws NotFoundHttpException
+     * @throws \Exception
+     * @throws \Throwable
+     */
+    public function actionPropertyDelete($id)
+    {
+        if (!Yii::$app->request->isPost) {
+            throw new BadRequestHttpException();
+        }
+
+        $success = true;
+
+        /** @var $model Property */
+        $model = Property::findOne((int)$id);
+        if ($model) {
+            $success = $model->delete();
+        }
+
+        return Json::encode(['success' => $success]);
     }
 
 

@@ -22,7 +22,7 @@ class Property extends ActiveRecord
                 'targetClass' => Product::className(),
                 'skipOnError' => true,
             ],
-            [['product_id', 'name', 'value'], 'required'],
+            [['product_id', 'name', /*'value'*/], 'required'],
         ];
     }
 

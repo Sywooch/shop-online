@@ -224,7 +224,14 @@ class AdminController extends Controller
                 $transaction->commit();
                 Yii::$app->session->addFlash("success", 'Товар обновлён!');
 
-                if ($product->moderated) {
+                if ($product->moderated && $product->posting) {
+                    // todo адаптировать механизм постинга под другие версии PHP (отличия в работе curl)
+                    // PHP 5.4 only  :-(
+                    if ((PHP_MAJOR_VERSION == 5) && (PHP_MINOR_VERSION == 4)) {
+                        Yii::$app->session->addFlash("error", 'Постинг не возможнен!');
+                        return $this->redirect([$back]);
+                    }
+
                     $text = Html::encode($product->name . ".\r\nЦена: " . Currency::kzt($product->price) . " тенге.");
                     $link = Url::to(['site/product', 'id' => $product->id, 'seoUrl' => $product->seo_url,
                         'city' => SiteController::CITY_DEFAULT], true);

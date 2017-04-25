@@ -20,7 +20,7 @@ $this->params['breadcrumbs'] = [
 
 ?>
 
-<?php $form = ActiveForm::begin(['action' => Url::current(), 'method' => 'post',]); ?>
+<?php $form = ActiveForm::begin(['action' => Url::current(), 'method' => 'post', 'enableClientValidation' => false]); ?>
 <?= $form->field($product, 'url')->hiddenInput()->label(false) ?>
 <?= $form->field($product, 'image')->hiddenInput()->label(false) ?>
 
@@ -41,6 +41,7 @@ $this->params['breadcrumbs'] = [
 <div class="row">
     <div class="col-sm-12">
         <h3>Характеристики</h3>
+        <div class="jumbotron">
         <?php foreach ($properties as $index => $property): ?>
             <div class="row">
                 <div class="col-sm-6">
@@ -51,6 +52,7 @@ $this->params['breadcrumbs'] = [
                 </div>
             </div>
         <?php endforeach; ?>
+        </div>
     </div>
 </div>
 
@@ -60,11 +62,6 @@ $this->params['breadcrumbs'] = [
 </div>
 <div class="row">
     <div class="col-sm-12"><?= $form->field($product, "seo_url")->textInput() ?></div>
-</div>
-<div class="row">
-    <div class="col-sm-6"><?= $form->field($product, "price")->textInput() ?></div>
-    <div class="col-sm-6"><?= $form->field($product, 'currency')
-            ->dropDownList(Product::getCurrencyList(), ['disabled' => true]) ?></div>
 </div>
 <div class="row">
     <div class="col-sm-12"><?= $form->field($product, "name")->textarea() ?></div>
@@ -87,12 +84,22 @@ $this->params['breadcrumbs'] = [
 </div>
 
 <div class="row">
-    <div class="col-sm-12"><?= $form->field($product, 'moderated')->dropDownList([0 => 'Нет', 1 => 'Да']) ?></div>
+    <div class="col-sm-3"><?= $form->field($product, 'currency')
+            ->dropDownList(Product::getCurrencyList(), ['disabled' => true]) ?></div>
+    <div class="col-sm-3"><?= $form->field($product, "price")->textInput() ?></div>
+    <div class="col-sm-3"><?= $form->field($product, 'moderated')->dropDownList([0 => 'Нет', 1 => 'Да']) ?></div>
+    <div class="col-sm-3"></div>
 </div>
 
-<div class="text-center">
-    <?= Html::submitButton('Сохранить', ['class' => 'btn btn-primary']) ?>
-    <?= Html::a('Удалить', ['product-delete', 'id' => $product->id],
-        ['class' => 'btn btn-danger', 'data-confirm' => 'Товар будет безвозвратно удален. Продолжить?']) ?>
+<div class="row">
+    <div class="col-sm-6"><?= $form->field($product, 'posting')->checkbox([
+            'disabled' => PHP_MAJOR_VERSION != 5 || PHP_MINOR_VERSION != 4 // not 5.4
+        ]) ?></div>
+    <div class="col-sm-6">
+        <?= Html::submitButton('Сохранить', ['class' => 'btn btn-primary']) ?>
+        <?= Html::a('Удалить', ['product-delete', 'id' => $product->id],
+            ['class' => 'btn btn-danger', 'data-confirm' => 'Товар будет безвозвратно удален. Продолжить?']) ?>
+    </div>
 </div>
 <?php $form->end(); ?>
+<hr>

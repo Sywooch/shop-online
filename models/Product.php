@@ -11,6 +11,9 @@ class Product extends ActiveRecord
     const CURRENCY_USD = "USD";
     const CURRENCY_RUB = "RUB";
 
+    /** @var bool Постинг в соцсети */
+    public $posting;
+
     public static function tableName()
     {
         return 'product';
@@ -30,7 +33,7 @@ class Product extends ActiveRecord
             ['moderated', 'in', 'range' => [0, 1]],
             [['created', 'updated'], 'date', 'format' => 'yyyy-M-d H:m:s'],
             [['name', 'url', 'price', 'currency', 'image'], 'required'],
-//            [['pictures', 'properties'], 'safe'],
+            [['posting'], 'safe'],
         ];
 
     }
@@ -48,6 +51,7 @@ class Product extends ActiveRecord
             'created' => 'Создан',
             'pictures' => 'Фотографии',
             'tags' => 'Теги',
+            'posting' => 'Постинг в соцсети',
         ];
     }
 

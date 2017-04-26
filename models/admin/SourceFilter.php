@@ -2,7 +2,6 @@
 
 namespace app\models\admin;
 
-use app\models\Source;
 use yii\data\ActiveDataProvider;
 
 class SourceFilter extends Source

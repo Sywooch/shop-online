@@ -1,6 +1,6 @@
 <?php
-
-namespace app\models;
+// todo DEPRECATED!
+namespace app\models\admin;
 
 use yii\db\ActiveRecord;
 use yii\db\Expression;

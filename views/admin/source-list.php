@@ -6,8 +6,8 @@ use yii\grid\GridView;
 use yii\widgets\ActiveForm;
 
 /** @var $this \yii\web\View */
-/** @var $source \app\models\Source */
-/** @var $filter \app\models\SourceFilter */
+/** @var $source \app\models\admin\Source */
+/** @var $filter \app\models\admin\SourceFilter */
 /** @var $dataProvider \yii\data\ActiveDataProvider */
 
 
@@ -15,8 +15,6 @@ $this->params['breadcrumbs'] = [
     ['label' => 'Панель управления', 'url' => ['admin/index']],
     'Источники',
 ];
-
-//echo Html::a("Добавить", ['source-add'], ['class' => 'btn btn-primary pull-right']);
 
 $form = ActiveForm::begin([
     'action' => Url::current(),
@@ -27,50 +25,30 @@ $form = ActiveForm::begin([
 if ($source->hasErrors()) {
     echo Html::tag('div', print_r($source->getErrors(), true), ['class' => 'alert alert-danger']);
 }
-
-echo Html::beginTag('div', ['class' => 'row']);
-echo
-//    Html::tag(
-//        'div',
-//        Html::label("&nbsp;") . "<br>" .
-//        Html::a('Стереть', ['source-list'], ['class' => 'btn btn-default']),
-//        ['class' => 'col-sm-1']
-//    ) .
-    Html::tag(
-        'div',
-        Html::activeLabel($source, 'url') .
-        Html::activeTextInput($source, 'url', ['class' => 'form-control']),
-        ['class' => 'col-sm-4']
-    ) .
-    Html::tag(
-        'div',
-        Html::activeLabel($source, 'pattern') .
-        Html::activeTextInput($source, 'pattern', ['class' => 'form-control']),
-        ['class' => 'col-sm-4']
-    ) .
-    Html::tag(
-        'div',
-        Html::activeLabel($source, 'blocked') .
-        Html::activeDropDownList($source, 'blocked', [0 => 'Нет', 1 => 'Блок.'], ['class' => 'form-control']),
-        ['class' => 'col-sm-2']
-    ) .
-    Html::tag(
-        'div',
-        Html::label("&nbsp;") . "<br>" .
-        Html::submitButton('', ['class' => 'btn btn-primary glyphicon glyphicon-ok'])
-        . Html::a('', ['source-list'], ['class' => 'btn btn-default glyphicon glyphicon-remove']),
-        ['class' => 'col-sm-2']
-    );
-echo Html::endTag('div');
-
+?>
+    <div class="row">
+        <div class="col-sm-4">
+            <?= Html::activeLabel($source, 'url') ?>
+            <?= Html::activeTextInput($source, 'url', ['class' => 'form-control']) ?>
+        </div>
+        <div class="col-sm-4">
+            <?= Html::activeLabel($source, 'pattern') ?>
+            <?= Html::activeTextInput($source, 'pattern', ['class' => 'form-control']) ?>
+        </div>
+        <div class="col-sm-2">
+            <?= Html::activeLabel($source, 'blocked') ?>
+            <?= Html::activeDropDownList($source, 'blocked', [0 => 'Нет', 1 => 'Блок.'], ['class' => 'form-control']) ?>
+        </div>
+        <div class="col-sm-2">
+            <?= Html::label("&nbsp;") . "<br>" ?>
+            <?= Html::submitButton('', ['class' => 'btn btn-primary glyphicon glyphicon-ok']) ?>
+            <?= Html::a('', ['source-list'], ['class' => 'btn btn-default glyphicon glyphicon-remove']) ?>
+        </div>
+    </div>
+<?php
 $form->end();
 
-//if (Yii::$app->session->hasFlash('error')) {
-//    echo Html::tag('div', join(Yii::$app->session->getFlash('error')), ['class' => 'alert alert-danger']);
-//}
-//if (Yii::$app->session->hasFlash('success')) {
-//    echo Html::tag('div', join(Yii::$app->session->getFlash('success')), ['class' => 'alert alert-success']);
-//}
+// Список источников
 
 echo GridView::widget([
     'filterModel' => $filter,
@@ -95,7 +73,8 @@ echo GridView::widget([
             'template' => '{parse} {source-edit} {source-delete}',
             'buttons' => [
                 'parse' => function ($url, $model, $key) {
-                    return Html::a('', $url, ['class' => 'glyphicon glyphicon-play', 'title' => 'Запуск парсера']);
+                    return Html::a('', $url,
+                        ['class' => 'btn-parse glyphicon glyphicon-play', 'title' => 'Запуск парсера']);
                 },
                 'source-edit' => function ($url, $model, $key) {
                     return Html::a('', ['', 'id' => $key],
@@ -110,13 +89,32 @@ echo GridView::widget([
 ]);
 
 
-//$imagesPath = Yii::$app->params['imagesPath'];
-//$this->registerJs(
-//<<<js
-//$('img').error(
-//    function() {
-//        $(this).attr('src', '{$imagesPath}/nophoto.jpg');
-//    }
-//);
-//js
-//    , $this::POS_END);
+$js = <<<js
+
+    $('.btn-parse').click(function() {
+    console.log('click');
+        // модальный диалог
+        var dlgParse = $('#dlgParse');
+        dlgParse.find('.loading').show();
+        dlgParse.find('pre').text("").hide();
+        dlgParse.dialog({title: "Идет парсинг, ждите...", width: 500, modal: true});
+
+        // запуск парсера и ожидание результата
+        $.post(this.href, function(response) {
+            dlgParse.dialog('option', 'title', 'Парсинг завершён!');
+            dlgParse.find('.loading').hide();
+            dlgParse.find('pre').text(response).show();
+        });
+
+        return false;
+    });
+
+js;
+$this->registerJs($js, $this::POS_END);
+?>
+<div id="dlgParse" style="display: none;">
+    <div class="loading text-center">
+        <img src="/images/loading.gif">
+    </div>
+    <pre></pre>
+</div>

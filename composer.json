@@ -18,7 +18,8 @@
         "kartik-v/yii2-widget-select2": "^2.0",
         "kop/yii2-scroll-pager": "^2.5",
         "2amigos/yii2-ckeditor-widget": "dev-master",
-        "2amigos/yii2-gallery-widget": "^1.0"
+        "2amigos/yii2-gallery-widget": "^1.0",
+        "yiisoft/yii2-jui": "^2.0"
     },
     "require-dev": {
         "yiisoft/yii2-codeception": "*",

@@ -8,6 +8,12 @@ class AliExpressParser
     /** @var string */
     private $_data;
 
+    /**
+     * Возвращает основные свойства товара
+     *
+     * @param $url
+     * @return array
+     */
     public function getProduct($url)
     {
         $this->loadData($url);
@@ -23,12 +29,23 @@ class AliExpressParser
         return $product;
     }
 
+    /**
+     * Возвращает массив фотографий
+     *
+     * @param $url
+     * @return array|null
+     */
     public function getPictures($url)
     {
         $this->loadData($url);
         return $this->parsePictures($this->_data);
     }
 
+    /**
+     * Возвращает массив свойств товара вида [names[], values[]]
+     * @param $url
+     * @return array|null
+     */
     public function getProperties($url)
     {
         $this->loadData($url);
@@ -39,8 +56,6 @@ class AliExpressParser
     {
         $ch = curl_init();
         curl_setopt($ch, CURLOPT_URL, $url);
-//        curl_setopt($ch, CURLOPT_PROXY, $proxy);
-        //curl_setopt($ch, CURLOPT_PROXYUSERPWD, $proxyauth);
 //        curl_setopt($ch, CURLOPT_FOLLOWLOCATION, 1);
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
         curl_setopt($ch, CURLOPT_HEADER, 1);
@@ -52,13 +67,18 @@ class AliExpressParser
         curl_setopt($ch, CURLOPT_ENCODING, "gzip");
         $result = curl_exec($ch);
 
-//        echo curl_error($ch);
-//        print_r(curl_getinfo($ch));
-
         curl_close($ch);
         return $result;
     }
 
+    /**
+     * Возвращает загруженные данные со страницы товара, не смотря на переадресации
+     * fix для CURLOPT_FOLLOWLOCATION=0
+     *
+     * @param $url
+     * @param bool $reload
+     * @return mixed|string
+     */
     protected function loadData($url, $reload = false)
     {
         if ($reload || !$this->_data) {
@@ -70,6 +90,12 @@ class AliExpressParser
         return $this->_data;
     }
 
+    /**
+     * Возвращает URL при переадресации
+     *
+     * @param $data
+     * @return null
+     */
     protected function parseLocation($data)
     {
         if (preg_match('#Location:[\s]*([^\s\r\n]+)#i', $data, $match)) {
@@ -78,6 +104,12 @@ class AliExpressParser
         return null;
     }
 
+    /**
+     * Возвращает название товара
+     *
+     * @param $data
+     * @return string|null
+     */
     protected function parseName($data)
     {
         if (preg_match('#\<h1[^\>]+itemprop\=\"name\"\>([^\<]+)#i', $data, $match)) {
@@ -86,6 +118,12 @@ class AliExpressParser
         return null;
     }
 
+    /**
+     * Возвращает валюту цены товара
+     *
+     * @param $data
+     * @return string|null
+     */
     protected function parseCurrency($data)
     {
         if (preg_match('#itemprop\=\"priceCurrency\" content\=\"([^\"]+)#i', $data, $match)) {
@@ -94,6 +132,12 @@ class AliExpressParser
         return null;
     }
 
+    /**
+     * Возвращает цену товара
+     *
+     * @param $data
+     * @return string|null
+     */
     protected function parsePrice($data)
     {
         if (preg_match('#itemprop\=\"price\"\>([^\<]+)#i', $data, $match)) {
@@ -104,6 +148,12 @@ class AliExpressParser
         return null;
     }
 
+    /**
+     * Возвращает главное фото товара
+     *
+     * @param $data
+     * @return string|null
+     */
     protected function parseImage($data)
     {
         if (preg_match('#window\.runParams\.mainBigPic \= \"([^\"]+)#i', $data, $match)) {
@@ -112,6 +162,12 @@ class AliExpressParser
         return null;
     }
 
+    /**
+     * Возвращает массив URL фотографий товара
+     *
+     * @param $data
+     * @return array|null
+     */
     protected function parsePictures($data)
     {
         if (preg_match('#window\.runParams\.imageBigViewURL\=\[([^\]]+)#i', $data, $match)) {
@@ -122,6 +178,12 @@ class AliExpressParser
         return null;
     }
 
+    /**
+     * Возвращает массив свойств товара вида [names[], values[]]
+     *
+     * @param $data
+     * @return array|null
+     */
     protected function parseProperties($data)
     {
         if (preg_match('#<ul[^\>]+product-property-list[^\>]+>([\s\S]+)</ul>#iU', $data, $match)) {
@@ -135,6 +197,12 @@ class AliExpressParser
         return null;
     }
 
+    /**
+     * Возвращает URL страници товара на AliExpress
+     *
+     * @param $data
+     * @return string|null
+     */
     protected function parseUrl($data)
     {
         if (preg_match('#\<meta property\=\"og\:url\" content=\"([^\?\"]+)#i', $data, $match)) {
@@ -143,6 +211,13 @@ class AliExpressParser
         return null;
     }
 
+
+    /**
+     * Возвращает seoUrl
+     *
+     * @param $data
+     * @return string|null
+     */
     protected function parseSeoUrl($data)
     {
         if (preg_match('#\/([^\/]+)\/[^\/]+$#i', $data, $match)) {

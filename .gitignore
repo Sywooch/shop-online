@@ -29,4 +29,5 @@ phpunit.phar
 
 /web/adminer.php
 /web/cookies.txt
+/cookies.txt
 tests/_output/*

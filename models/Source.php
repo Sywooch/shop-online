@@ -3,6 +3,7 @@
 namespace app\models;
 
 use yii\db\ActiveRecord;
+use yii\db\Expression;
 
 class Source extends ActiveRecord
 {
@@ -34,9 +35,9 @@ class Source extends ActiveRecord
 
     public static function getNextSource($touch = false)
     {
-        $model = self::find()->where(['blocked' => '0'])->orderBy(['used' => SORT_DESC])->one();
+        $model = self::find()->where(['blocked' => '0'])->orderBy(['used' => SORT_ASC])->one();
         if ($touch && $model) {
-            $model->updateAttributes(['used']);
+            $model->updateAttributes(['used' => new Expression('now()')]);
         }
         return $model;
     }

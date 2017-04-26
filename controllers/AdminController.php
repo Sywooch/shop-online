@@ -84,6 +84,7 @@ class AdminController extends Controller
         $source = Source::findOne((int)$id);
         if (!$source) {
             $source = new Source();
+            $source->pattern = '#\>(http(s|)\:\/\/[^\s\\\'\"\<]+)#i'; //[\s]*
         }
 
         if ($source->load(Yii::$app->request->post()) && $source->validate()) {

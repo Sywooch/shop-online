@@ -2,9 +2,8 @@
 
 namespace app\commands;
 
-use app\models\Link;
 use app\models\Product;
-use app\models\Source;
+use app\models\admin\Source;
 use yii\console\Controller;
 use yii\console\Exception;
 

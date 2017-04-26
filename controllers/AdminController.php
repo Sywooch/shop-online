@@ -16,6 +16,7 @@ use app\components\vkApi\Post;
 use app\components\vkApi\Vk;
 use Yii;
 use yii\base\Exception;
+use yii\db\Expression;
 use yii\filters\AccessControl;
 use yii\filters\VerbFilter;
 use yii\helpers\ArrayHelper;
@@ -133,6 +134,7 @@ class AdminController extends Controller
         if (!$source) {
             die("Ошибка: нет сайта для парсинга!\n");
         }
+        $source->updateAttributes(['used' => new Expression('now()')]);
 
         $data = file_get_contents($source->url);
         if (!$data) {

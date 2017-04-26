@@ -3,7 +3,6 @@
 namespace app\controllers;
 
 use app\components\Currency;
-use app\models\admin\Link;
 use app\models\admin\LoginForm;
 use app\models\admin\ProductAddForm;
 use app\models\admin\ProductFilter;
@@ -176,26 +175,13 @@ class AdminController extends Controller
     /**
      * Добавление товара
      *
-     * @param bool $rand
      * @return string|Response
      */
-    public function actionProductAdd($rand = false)
+    public function actionProductAdd()
     {
         $productAddForm = new ProductAddForm();
 
-        if ($rand) {
-            $link = Link::getNextLink();
-            if (!$link) {
-                Yii::$app->session->addFlash("error", 'Нет товаров для модерации!');
-                return $this->redirect(['product-add']);
-            }
-            $productAddForm->url = ArrayHelper::getValue($link, 'url');
-        }
-
         if ($productAddForm->load(Yii::$app->request->post()) && $productAddForm->validate()) {
-
-            Link::deleteAll('url = :url', [':url' => $productAddForm->url]);
-
             $product = Product::add($productAddForm->url);
             if ($product) {
                 return $this->redirect(['product-edit', 'id' => $product->id, 'back' => 'product-add']);
@@ -204,17 +190,33 @@ class AdminController extends Controller
             Yii::$app->session->addFlash("error", 'Ошибка при добавлении товара! Вероятно, такой товар уже есть...');
         }
 
-        $countLink = Link::find()->count();
+        $lastImport = Source::find()->max('used');
         $statistic = Product::getStatistic();
 
         return $this->render('product-add', [
             'productAddForm' => $productAddForm,
-            'countLink' => $countLink,
+            'lastImport' => (new \DateTime())->diff(new \DateTime($lastImport))->i,
             'countModeratedToday' => $statistic['moderatedToday'],
             'countTotalToday' => $statistic['totalToday'],
             'countModerated' => $statistic['moderated'],
             'countTotal' => $statistic['total'],
         ]);
+    }
+
+    /**
+     * Редактирование/модерирование случайного товара
+     *
+     * @return Response
+     */
+    public function actionProductEditRandom()
+    {
+        $product = Product::find()->where('`moderated` = 0')->orderBy(new Expression('rand()'))->one();
+        if (!$product) {
+            Yii::$app->session->addFlash("error", 'Нет товаров для модерации!');
+            return $this->redirect(['product-add']);
+        }
+
+        return $this->redirect(['product-edit', 'id' => $product->id, 'back' => 'product-add']);
     }
 
     /**

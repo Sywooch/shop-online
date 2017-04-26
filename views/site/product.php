@@ -73,8 +73,8 @@ $this->params['breadcrumbs'] = [Html::decode($product->name)];
                     <th><i class="glyphicon glyphicon-usd"></i> Розничная цена</th>
                     <td>
                         <div class="price" itemprop="offers" itemscope itemtype="http://schema.org/Offer">
-                            <span itemprop="price" content="<?= Currency::kzt($product->price) ?>">
-                                <?= Currency::kzt($product->price) ?>
+                            <span itemprop="price" content="<?= Currency::kzt($product->price, $product->currency) ?>">
+                                <?= Currency::kzt($product->price, $product->currency) ?>
                             </span>
                             <span itemprop="priceCurrency" content="KZT">тенге</span> (минимум)
                             <link itemprop="availability" href="http://schema.org/InStock"/>

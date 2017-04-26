@@ -249,7 +249,8 @@ class AdminController extends Controller
                         return $this->redirect([$back]);
                     }
 
-                    $text = Html::encode($product->name . ".\r\nЦена: " . Currency::kzt($product->price) . " тенге.");
+                    $text = Html::encode($product->name . ".\r\nЦена: "
+                        . Currency::kzt($product->price, $product->currency) . " тенге.");
                     $link = Url::to(['site/product', 'id' => $product->id, 'seoUrl' => $product->seo_url,
                         'city' => SiteController::CITY_DEFAULT], true);
 

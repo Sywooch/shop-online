@@ -1,9 +1,7 @@
 <?php
-use yii\bootstrap\Carousel;
 use yii\helpers\ArrayHelper;
 use yii\helpers\Html;
 use yii\widgets\ListView;
-use app\models\Carousel as CarouselModel;
 use app\widgets\Text\Text;
 
 /* @var $this yii\web\View */

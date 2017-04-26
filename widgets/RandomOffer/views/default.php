@@ -28,7 +28,7 @@ foreach ($offers as $offer) {
             'class' => 'random-offer-item-image',
         ]) .
         Html::img($offer->image, ['alt' => 'Фотография ' . Html::encode($offer->name)]) .
-        Html::tag('div', Currency::kzt($offer->price) . " <small>₸</small>", ['class' => 'random-offer-item-price']) .
+        Html::tag('div', Currency::kzt($offer->price, $offer->currency) . " <small>₸</small>", ['class' => 'random-offer-item-price']) .
 //        Html::tag('div', Html::encode($offer->category->name), ['class' => 'random-offer-item-category']) .
         Html::endTag('div') .
 

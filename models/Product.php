@@ -47,7 +47,7 @@ class Product extends ActiveRecord
             'description' => 'Описание',
             'seo_url' => 'ЧПУ',
             'image' => 'Фото',
-            'moderated' => 'Одобрено',
+            'moderated' => 'Одобрен',
             'created' => 'Создан',
             'pictures' => 'Фотографии',
             'tags' => 'Теги',

@@ -8,7 +8,7 @@ use yii\helpers\ArrayHelper;
 
 class ProductFilter extends Product
 {
-    public $pageSize = 30;
+    public $pageSize = 50;
 
     public $tag;
 
@@ -29,7 +29,7 @@ class ProductFilter extends Product
 
     public function search($params)
     {
-        $query = self::find()->joinWith(['tags']);
+        $query = self::find()->joinWith(['tags'])->distinct();
 
         $dataProvider = new ActiveDataProvider([
             'query' => $query,

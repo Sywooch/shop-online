@@ -73,48 +73,19 @@ echo GridView::widget([
             'template' => '{parse} {source-edit} {source-delete}',
             'buttons' => [
                 'parse' => function ($url, $model, $key) {
-                    return Html::a('', $url,
-                        ['class' => 'btn-parse glyphicon glyphicon-play', 'title' => 'Запуск парсера']);
+                    return Html::a('<i class="glyphicon glyphicon-play"></i>', $url,
+                        ['class' => 'btn-parse', 'title' => 'Запуск парсера']);
                 },
                 'source-edit' => function ($url, $model, $key) {
-                    return Html::a('', ['', 'id' => $key],
-                        ['class' => 'glyphicon glyphicon-pencil', 'title' => 'Переименовать']);
+                    return Html::a('<i class="glyphicon glyphicon-pencil"></i>', ['source-edit', 'id' => $key],
+                        ['title' => 'Редактировать']);
                 },
                 'source-delete' => function ($url, $model, $key) {
-                    return Html::a('', $url, ['class' => 'glyphicon glyphicon-trash', 'title' => 'Удалить']);
+                    return Html::a('<i class="glyphicon glyphicon-trash"></i>', $url, ['title' => 'Удалить']);
                 },
             ]
         ],
     ]
 ]);
 
-
-$js = <<<js
-
-    $('.btn-parse').click(function() {
-    console.log('click');
-        // модальный диалог
-        var dlgParse = $('#dlgParse');
-        dlgParse.find('.loading').show();
-        dlgParse.find('pre').text("").hide();
-        dlgParse.dialog({title: "Идет парсинг, ждите...", width: 500, modal: true});
-
-        // запуск парсера и ожидание результата
-        $.post(this.href, function(response) {
-            dlgParse.dialog('option', 'title', 'Парсинг завершён!');
-            dlgParse.find('.loading').hide();
-            dlgParse.find('pre').text(response).show();
-        });
-
-        return false;
-    });
-
-js;
-$this->registerJs($js, $this::POS_END);
-?>
-<div id="dlgParse" style="display: none;">
-    <div class="loading text-center">
-        <img src="/images/loading.gif">
-    </div>
-    <pre></pre>
-</div>
+echo $this->render('_dialog_parser');

@@ -2,6 +2,7 @@
 
 namespace app\controllers;
 
+use app\components\AliExpressParser;
 use app\components\Currency;
 use app\models\admin\LoginForm;
 use app\models\admin\ProductAddForm;
@@ -388,6 +389,34 @@ class AdminController extends Controller
         return Json::encode(['success' => $success]);
     }
 
+    /**
+     * Обновление цены товара
+     *
+     * @param $id
+     * @return null
+     */
+    public function actionProductParse($id)
+    {
+        /** @var $product Product */
+        $product = Product::findOne((int)$id);
+        if (!$product) {
+            die("Ошибка: товар не найден!\n");
+        }
+
+        echo "Обновление товара #{$product->id} ...\n";
+
+        $parser = new AliExpressParser();
+        $product->attributes = $parser->getProductUpdate($product->url);
+        $product->updated = null;
+
+        if (!$product->save()) {
+            die(print_r($product->errors, true));
+        }
+
+        echo "Готово!\n";
+
+        return null;
+    }
 
     /**
      * Вход в админку

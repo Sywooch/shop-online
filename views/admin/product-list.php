@@ -9,7 +9,7 @@ use \app\controllers\SiteController;
 
 /** @var $this \yii\web\View */
 /** @var $product \app\models\Product */
-/** @var $filter \app\models\ProductFilter */
+/** @var $filter \app\models\admin\ProductFilter */
 /** @var $dataProvider \yii\data\ActiveDataProvider */
 
 
@@ -23,16 +23,16 @@ echo Html::a("Добавить", ['product-add'], ['class' => 'btn btn-primary p
 echo GridView::widget([
     'filterModel' => $filter,
     'dataProvider' => $dataProvider,
+//    'rowOptions' => function ($model, $index, $widget, $grid) {
+//        return !$model->moderated ? ['class' => 'bg-warning'] : [];
+//    },
     'columns' => [
         [
             'contentOptions' => ['style' => 'width: 100px;'],
             'label' => 'Фото',
             'format' => 'raw',
             'value' => function ($model) {
-                return Html::img(
-                    $model->image,
-                    [/*'max-width' => 100, 'max-height' => 100, 'height' => 100*/ 'width' => 100,]
-                );
+                return Html::img($model->image, ['width' => 100]);
             }
         ],
         [
@@ -43,8 +43,7 @@ echo GridView::widget([
             'attribute' => 'name',
             'format' => 'raw',
             'value' => function ($model) {
-                return Html::a($model->name, ['site/product', 'city' => SiteController::CITY_DEFAULT,
-                    'seoUrl' => $model->seo_url, 'id' => $model->id]);
+                return Html::a(Html::encode($model->name), ['admin/product-edit', 'id' => $model->id]);
             }
         ],
         [
@@ -59,45 +58,51 @@ echo GridView::widget([
                 return join(', ', $links);
             }
         ],
-        'created',
         [
-            'contentOptions' => ['style' => 'width: 60px;'],
+            'contentOptions' => ['style' => 'width: 100px; text-align: center;'],
+            'attribute' => 'created',
+        ],
+        [
+            'contentOptions' => ['style' => 'width: 60px; text-align: center;'],
             'attribute' => 'moderated',
             'filter' => [0 => 'Нет', 1 => 'Да'],
             'format' => 'raw',
             'value' => function ($model) {
-                return $model->moderated ? "Да" : "Нет";
+                return $model->moderated
+                    ? '<i class="label label-success">Да</i>'
+                    : '<i class="label label-warning">Нет</i>';
             }
         ],
         [
             'class' => ActionColumn::className(),
             'contentOptions' => ['style' => 'width: 90px;'],
-            'template' => '{product-edit} {product-delete}',
+            'template' => '{product-parse} {product-edit} {product-delete} {product-view}',
             'buttons' => [
-//                'parse' => function ($url, $model, $key) {
-//                    return Html::a('', $url, ['class' => 'glyphicon glyphicon-play', 'title' => 'Запуск парсера']);
-//                },
+                'product-parse' => function ($url, $model, $key) {
+                    return Html::a('<i class="glyphicon glyphicon-play"></i>', $url,
+                        ['class' => 'btn-parse', 'title' => 'Обновить цену']);
+                },
+                'product-view' => function ($url, $model, $key) {
+                    return Html::a('<i class="glyphicon glyphicon-eye-open"></i>',
+                        Url::to(['site/product', 'city' => SiteController::CITY_DEFAULT,
+                            'seoUrl' => $model->seo_url, 'id' => $model->id]),
+                        ['title' => 'Смотреть в магазине', 'target' => '_blank']);
+                },
                 'product-edit' => function ($url, $model, $key) {
-                    return Html::a('', $url,
-                        ['class' => 'glyphicon glyphicon-pencil', 'title' => 'Переименовать']);
+                    return Html::a('<i class="glyphicon glyphicon-pencil"></i>', $url, ['title' => 'Редактировать']);
                 },
                 'product-delete' => function ($url, $model, $key) {
-                    return Html::a('', $url, ['class' => 'glyphicon glyphicon-trash', 'title' => 'Удалить',
+                    return Html::a('<i class="glyphicon glyphicon-trash"></i>', $url, ['title' => 'Удалить',
                         'data-confirm' => 'Товар будет безвозвратно удален. Продолжить?']);
                 },
+            ],
+            'visibleButtons' => [
+                'product-view' => function ($model, $key, $index) {
+                    return $model->moderated;
+                }
             ]
         ],
     ]
 ]);
 
-
-//$imagesPath = Yii::$app->params['imagesPath'];
-//$this->registerJs(
-//<<<js
-//$('img').error(
-//    function() {
-//        $(this).attr('src', '{$imagesPath}/nophoto.jpg');
-//    }
-//);
-//js
-//    , $this::POS_END);
+echo $this->render('_dialog_parser');

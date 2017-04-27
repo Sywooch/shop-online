@@ -14,7 +14,7 @@ $this->registerMetaTag(['name' => 'og:type', 'content' => 'website']);
 $this->registerMetaTag(['name' => 'og:title', 'content' => $title]);
 $this->registerMetaTag(['name' => 'og:site_name', 'content' => Yii::$app->params['siteName']]);
 $this->registerMetaTag(['name' => 'og:description', 'content' => $description]);
-$this->registerMetaTag(['name' => 'og:image', 'content' => Yii::$app->params['siteUrl'] . 'fb.jpg' ]);
+$this->registerMetaTag(['name' => 'og:image', 'content' => Yii::$app->params['siteUrl'] . 'fb.jpg']);
 $this->title = $title;
 
 
@@ -45,4 +45,17 @@ $this->title = $title;
     </div>
 <!--    <div class="hidden-xs col-sm-3 col-md-3"></div>-->
 </div>
+<?php
+$js = <<<js
+$(".product_item__info__link").click(function() {
+    var search = $("input[name=CatalogueFilter\\\[query\\\]]");
+    if (typeof search != 'undefined') {
+        search.val(this.innerText);
+        search.closest('form').submit();
+    }
+    return false;
+});
 
+js;
+$this->registerJs($js, $this::POS_END);
+?>

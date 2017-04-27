@@ -8,7 +8,7 @@ class Text extends Widget
 {
     public $content;
 
-    public $height = "120px";
+    public $height = "40px";
 
     public $readMore = "Читать далее";
 

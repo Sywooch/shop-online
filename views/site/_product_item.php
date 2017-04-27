@@ -87,16 +87,8 @@ use yii\helpers\Url;
                 <div>
                     <i class="glyphicon glyphicon-tags"></i>
                     <?php foreach ($model->tags as $tag) {
-                        // todo  надо что-нибудь придумать для работы фильтра по тегам
-                        echo Html::a(Html::encode($tag['name']), Url::current(),
-                                [
-                                    'class' => 'product_search_filter_tag_link',
-                                    'data-method' => 'post',
-                                    'data-params' => Html::encode('CatalogueFilter[query]=' . $tag['name']),
-//                                    'onclick' => new \yii\web\JsExpression('$(".product_search_input").val("' .
-//                                        Html::encode($tag['name']) . '");'),
-                                ]
-                            ) . PHP_EOL;
+                        echo Html::a(Html::encode($tag['name']), "#", ['data-pjax' => 0,
+                                'class' => 'product_search_filter_tag_link product_item__info__link',]) . PHP_EOL;
                     } ?>
                 </div>
             </div>

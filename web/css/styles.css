@@ -121,14 +121,3 @@ footer ul li:before {
     border: none;
     vertical-align: text-top;
 }
-
-/* Админка */
-.product__gallery {
-    list-style-type: none;
-}
-.product__gallery__item {
-    display: inline-block;
-}
-.product__gallery__image {
-    width: 100px;
-}

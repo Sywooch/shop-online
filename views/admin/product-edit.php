@@ -3,6 +3,7 @@ use app\models\Product;
 use app\models\Property;
 use app\models\Tag;
 use dosamigos\ckeditor\CKEditor;
+use dosamigos\gallery\Gallery;
 use kartik\select2\Select2;
 use yii\helpers\ArrayHelper;
 use yii\helpers\Html;
@@ -29,13 +30,9 @@ $this->params['breadcrumbs'] = [
 <div class="row">
     <div class="col-sm-6"><?= Html::img($product->image, ['class' => 'image img-responsive']) ?></div>
     <div class="col-sm-6">
-        <ul class="product__gallery">
-            <?php foreach ($product->pictures as $picture): ?>
-                <li class="product__gallery__item">
-                    <img class="product__gallery__image thumbnail" src="<?= $picture->src ?>">
-                </li>
-            <?php endforeach; ?>
-        </ul>
+        <?= Gallery::widget(['items' => array_map(function ($p) {
+            return $p->src;
+        }, $product->pictures)]) ?>
     </div>
 </div>
 

@@ -49,10 +49,10 @@ class ProductFilter extends Product
             return $dataProvider;
         }
 
-        $query->andFilterWhere(['=', 'id', $this->id]);
-        $query->andFilterWhere(['like', 'name', $this->name]);
-        $query->andFilterWhere(['=', 'moderated', $this->moderated]);
-        $query->andFilterWhere(['like', 'created', $this->created]);
+        $query->andFilterWhere(['=', 'product.`id`', $this->id]);
+        $query->andFilterWhere(['like', 'product.`name`', $this->name]);
+        $query->andFilterWhere(['=', 'product.`moderated`', $this->moderated]);
+        $query->andFilterWhere(['like', 'product.`created`', $this->created]);
         $query->andFilterWhere(['like', 'tag.name', $this->tag]);
 
         return $dataProvider;

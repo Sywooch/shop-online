@@ -52,6 +52,23 @@ class AliExpressParser
         return $this->parseProperties($this->_data);
     }
 
+    /**
+     * Возвращает массив свойств для обновления (цена и валюта)
+     * todo в будущем добавить: наличие, доставку, рейтинг, отзывы
+     * @param $url
+     * @return array
+     */
+    public function getProductUpdate($url)
+    {
+        $this->loadData($url);
+
+        $product = [];
+        $product['price'] = str_replace(",", ".", preg_replace("#(\&nbsp\;|[\s]+)#", "", $this->parsePrice($this->_data)));
+        $product['currency'] = $this->parseCurrency($this->_data);
+
+        return $product;
+    }
+
     protected function download($url)
     {
         $ch = curl_init();
@@ -61,7 +78,7 @@ class AliExpressParser
         curl_setopt($ch, CURLOPT_HEADER, 1);
         curl_setopt($ch, CURLOPT_USERAGENT,
             "Mozilla/5.0 (Windows; U; Windows NT 5.1; en-US; rv:1.8.1.7) Gecko/20070914 Firefox/2.0.0.7");
-        curl_setopt($ch, CURLOPT_COOKIEJAR, "cookies.txt"); // cookies storage / here the changes have been made
+        curl_setopt($ch, CURLOPT_COOKIEJAR, "cookies.txt");
         curl_setopt($ch, CURLOPT_COOKIEFILE, "cookies.txt");
         curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false); // false for https
         curl_setopt($ch, CURLOPT_ENCODING, "gzip");

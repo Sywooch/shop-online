@@ -2,6 +2,7 @@
 
 namespace app\commands;
 
+use app\components\AliExpressParser;
 use app\models\Product;
 use app\models\admin\Source;
 use yii\console\Controller;
@@ -15,14 +16,33 @@ class ProductController extends Controller
 
     }
 
-    public function actionCreate($url = null)
-    {
-        
-    }
-
+    /**
+     * Обновление цены товара - можно запускать по крону
+     * @param null $url
+     */
     public function actionUpdate($url = null)
     {
-        
+        /** @var $product Product */
+        $product = Product::find()
+            ->where('`moderated` = 1')
+            ->andFilterWhere(['url' => strip_tags($url)])
+            ->orderBy(['updated' => SORT_ASC])
+            ->one();
+        if (!$product) {
+            die("Ошибка: товар не найден!\n");
+        }
+
+        echo "Обновление товара #{$product->id} ...\n";
+
+        $parser = new AliExpressParser();
+        $product->attributes = $parser->getProductUpdate($product->url);
+        $product->updated = null;
+
+        if (!$product->save()) {
+            die(print_r($product->errors, true));
+        }
+
+        echo "Готово!\n";
     }
 
     /**

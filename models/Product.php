@@ -31,7 +31,7 @@ class Product extends ActiveRecord
             [['url', 'seo_url', 'image', 'name'], 'string', 'max' => 255],
             [['description'], 'string', 'max' => 65535],
             ['moderated', 'in', 'range' => [0, 1]],
-            [['created', 'updated'], 'date', 'format' => 'yyyy-M-d H:m:s'],
+            [['created', 'updated'], 'date', 'format' => 'php:Y-m-d H:i:s'],
             [['name', 'url', 'price', 'currency', 'image'], 'required'],
             [['posting'], 'safe'],
         ];

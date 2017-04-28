@@ -3,8 +3,6 @@ use app\components\AliExpressParser;
 
 class aliexpressTest extends \Codeception\Test\Unit
 {
-    public $url = "https://ru.aliexpress.com/store/product/2015-new-super-wide-tire-bike-Snowmobile-ATV-26-bicycle-disc-brakes-bicycle-shock-absorbers-Russia/1803142_32344137835.html";
-
     /**
      * @var \UnitTester
      */
@@ -12,12 +10,18 @@ class aliexpressTest extends \Codeception\Test\Unit
 
     protected $parser;
     protected $product = [];
+    protected $pictures = [];
+    protected $properties = [];
 
     protected function _before()
     {
-        require_once("/var/www/shop/components/AliExpressParser.php");
+        $data = file("data/goods.txt");
+        $url = array_shift($data);
+
         $this->parser = new AliExpressParser();
-        $this->product = $this->parser->getProduct($this->url);
+        $this->product = $this->parser->getProduct($url);
+        $this->pictures = $this->parser->getPictures($url);
+        $this->properties = $this->parser->getProperties($url);
     }
 
     protected function _after()
@@ -25,11 +29,6 @@ class aliexpressTest extends \Codeception\Test\Unit
     }
 
     // tests
-    public function testMe()
-    {
-
-    }
-
     public function testName()
     {
         $this->assertNotNull($this->product['name']);
@@ -52,13 +51,13 @@ class aliexpressTest extends \Codeception\Test\Unit
 
     public function testPictures()
     {
-        $this->assertNotNull($this->product['pictures']);
-        $this->assertNotEmpty($this->product['pictures']);
+        $this->assertNotNull($this->pictures);
+        $this->assertNotEmpty($this->pictures);
     }
 
     public function testProperties()
     {
-        $this->assertNotNull($this->product['properties']);
-        $this->assertNotEmpty($this->product['properties']);
+        $this->assertNotNull($this->properties);
+        $this->assertNotEmpty($this->properties);
     }
 }

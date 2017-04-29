@@ -2,11 +2,9 @@
 use yii\helpers\Html;
 use yii\helpers\Url;
 use yii\widgets\Breadcrumbs;
-use app\widgets\MainMenu\MainMenu;
-use app\widgets\ScrollUp\ScrollUp;
 use app\assets\AppAsset;
-use app\models\Category;
 use app\models\City;
+use app\widgets\ScrollUp\ScrollUp;
 
 
 /* @var $this \yii\web\View */
@@ -21,7 +19,7 @@ AppAsset::register($this);
 
 $this->beginPage();
 ?><!DOCTYPE html>
-<html lang="<?= Yii::$app->language ?>">
+<html lang="<?= Yii::$app->language ?>" xmlns="http://www.w3.org/1999/xhtml" xmlns:og="http://ogp.me/ns#">
 <head>
     <meta charset="<?= Yii::$app->charset ?>">
     <title><?= Html::encode($this->title) ?></title>
@@ -37,10 +35,7 @@ $this->beginPage();
 <div class="container">
     <div class="clearfix"></div>
     <div>
-        <div class="logo">
-            <?= Html::encode(Yii::$app->params['name']) ?>
-<!--            <small class="text-muted"></small>-->
-        </div>
+        <div class="logo"><?= Html::encode(Yii::$app->params['name']) ?></div>
         <p class="text-muted"><?= Html::encode(Yii::$app->params['siteName']) ?></p>
     </div>
 
@@ -139,14 +134,10 @@ $this->beginPage();
                     );
                 </script>
             </div>
-
-            <!-- col 4 -->
-<!--            <div class="col-sm-4 col-md-4">-->
-<!--            </div>-->
         </div>
     </div>
 </footer>
-<?php echo ScrollUp::widget([]); ?>
+<?= ScrollUp::widget() ?>
 <?php $this->endBody() ?>
 </body>
 </html>

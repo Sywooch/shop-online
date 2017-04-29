@@ -118,7 +118,7 @@ class SiteController extends Controller
         }
 
         /* SEO */
-        $price = Currency::kzt($this->product->price);
+        $price = Currency::kzt($this->product->price, $this->product->currency);
         $description = "Купить {$this->product->name} за {$price} тенге с доставкой по {$this->city->po}";
         $title = "{$this->product->name} по цене {$price} тенге продаётся на " .
             Yii::$app->params['name'] . " с бесплатной доставкой по {$this->city->po}";

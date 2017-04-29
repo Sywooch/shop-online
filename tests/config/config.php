@@ -4,10 +4,10 @@ return [
     'components' => [
         'db' => [
             'dsn' => 'mysql:host=localhost;dbname=test_test',
-//            'dsn' => 'sqlite:' . __DIR__ . '/../data/test.db',
+        ],
+        'urlManager' => [
+            'enablePrettyUrl' => false,
+            'showScriptName' => true,
         ],
     ],
-//    'urlManager' => [
-//        'showScriptName' => true,
-//    ],
 ];

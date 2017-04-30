@@ -41,7 +41,7 @@ class CatalogueFilter extends Model
             'pagination' => ['pageSize' => $this->pageSize],
             'sort' => [
                 'defaultOrder' => ['created' => SORT_DESC],
-                'attributes' => ['id', 'name', 'moderated', 'created'],
+                'attributes' => ['price', 'created'],
             ]
         ]);
 

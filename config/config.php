@@ -77,13 +77,12 @@ $config = [
     'params' => [
         'adminEmail' => 'admin@shop-online.kz',
         'name' => 'Shop-online.KZ',
-        'siteName' => 'Только лучшие товары AliExpress',
+        'siteName' => 'Только лучшие товары по ценам AliExpress, без переплаты',
         'siteUrl' => 'http://shop-online.kz/', // https
 
         'admitad' => 'https://alitems.com/g/1e8d114494745ac730c816525dc3e8/?ulp=',
-//        'admitad' => 'http://ad.admitad.com/g/143b862b8259505879f5234642e5a7/?ulp=',
 
-        // todo добавить автопостинг в соцсети
+        // todo добавить автопостинг в twitter, сейчас настроен экспорт в твиттер из ВКонтакте
         'twitter' => file_exists(__DIR__ . '/twitter.php') ? require(__DIR__ . '/twitter.php') : null,
         'vk' => file_exists(__DIR__ . '/vk.php') ? require(__DIR__ . '/vk.php') : null,
     ],

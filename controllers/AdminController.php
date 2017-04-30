@@ -9,6 +9,7 @@ use app\models\admin\ProductAddForm;
 use app\models\admin\ProductFilter;
 use app\models\admin\Source;
 use app\models\admin\SourceFilter;
+use app\models\Comment;
 use app\models\Product;
 use app\models\Property;
 use app\models\Tag;
@@ -411,6 +412,20 @@ class AdminController extends Controller
 
         if (!$product->save()) {
             die(print_r($product->errors, true));
+        }
+
+        $feedbacks = $parser->getProductFeedback($product->url);
+        foreach ($feedbacks as $feedback) {
+            $date = (new \DateTime($feedback['date']))->format("Y-m-d H:i:s");
+            /** @var $comment Comment */
+            $comment = Comment::findOne(['product_id' => $product->id, 'date' => $date]);
+            if ($comment) {
+                continue;
+            }
+            $feedback['date'] = $date;
+            $feedback['photos'] = join(";", $feedback['photos']);
+
+            Comment::add($product, $feedback);
         }
 
         echo "Готово!\n";

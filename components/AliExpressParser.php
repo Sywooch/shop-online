@@ -25,6 +25,7 @@ class AliExpressParser
         $product['image'] = $this->parseImage($this->_data);
         $product['price'] = str_replace(",", ".", preg_replace("#(\&nbsp\;|[\s]+)#", "", $this->parsePrice($this->_data)));
         $product['currency'] = $this->parseCurrency($this->_data);
+        $product['rating'] = $this->parseRating($this->_data);
 
         return $product;
     }
@@ -65,9 +66,26 @@ class AliExpressParser
         $product = [];
         $product['price'] = str_replace(",", ".", preg_replace("#(\&nbsp\;|[\s]+)#", "", $this->parsePrice($this->_data)));
         $product['currency'] = $this->parseCurrency($this->_data);
+        $product['rating'] = $this->parseRating($this->_data);
 
         return $product;
     }
+
+    /**
+     * Возвращает массив отзывов покупателей
+     * @param $url
+     * @return array|null
+     */
+    public function getProductFeedback($url)
+    {
+        $this->loadData($url);
+
+        $urlFeedback = $this->parseFeedbackUrl($this->_data);
+        $dataFeedback = $this->download($urlFeedback);
+
+        return $this->parseFeedback($dataFeedback);
+    }
+
 
     protected function download($url)
     {
@@ -239,6 +257,74 @@ class AliExpressParser
     {
         if (preg_match('#\/([^\/]+)\/[^\/]+$#i', $data, $match)) {
             return $match[1];
+        }
+        return null;
+    }
+
+    /**
+     * Возвращает рейтинг
+     *
+     * @param $data
+     * @return null
+     */
+    protected function parseRating($data)
+    {
+        if (preg_match('#percent-num">([\d\.]+)#i', $data, $match)) {
+            return $match[1];
+        }
+        return null;
+    }
+
+    /**
+     * Возвращает URL для страницы feedback
+     *
+     * @param $data
+     * @return null|string
+     */
+    protected function parseFeedbackUrl($data)
+    {
+        if (preg_match('#thesrc="([^\"]+)#i', $data, $match)) {
+            return "https:" . $match[1];
+        }
+        return null;
+    }
+
+    /**
+     * Возвращает массив данных с отзывами покупателей
+     *
+     * @param $data
+     * @return array|null
+     */
+    protected function parseFeedback($data)
+    {
+        if (preg_match_all('#feedback-item([\s\S]+)(?=feedback-item|complex-pager)#iU', $data, $feedbackItems)) {
+            $feedback = [];
+            foreach ($feedbackItems[1] as $i => $feedbackItem) {
+                // get name
+                if (!preg_match('#user-name">([\s\S]+)</span>#iU', $feedbackItem, $name)) {
+                    continue;
+                }
+                $feedback[$i]['buyer'] = trim(strip_tags($name[1]));
+
+                // get text
+                if (!preg_match('#<dt class="buyer-feedback">([\s\S]+)</dt>#iU', $feedbackItem, $text)) {
+                    continue;
+                }
+                $feedback[$i]['text'] = trim(strip_tags($text[1]));
+
+                // get date
+                if (!preg_match('#<dd class="r-time">([^\<]+)</dd>#iU', $feedbackItem, $date)) {
+                    continue;
+                }
+                $feedback[$i]['date'] = trim(strip_tags($date[1]));
+
+                // get photo
+                if (!preg_match_all('#data-src="([^\"]+)#i', $feedbackItem, $photos)) {
+                    continue;
+                }
+                $feedback[$i]['photos'] = $photos[1];
+            }
+            return $feedback;
         }
         return null;
     }

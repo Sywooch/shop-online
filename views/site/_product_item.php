@@ -27,12 +27,7 @@ use yii\helpers\Url;
                ]) ?>">
                 <h2 class="product_item__name" itemprop="name"><?= Html::decode($model->name) ?></h2>
             </a>
-            <!--
-                    <div class="product_item__rating" itemprop="aggregateRating" itemscope itemtype="http://schema.org/AggregateRating">
-                        Rated <span itemprop="ratingValue">3.5</span>/5
-                        based on <span itemprop="reviewCount">11</span> customer reviews
-                    </div>
-            -->
+
             <div class="product_item__offer bg-primary" itemprop="offers" itemscope itemtype="http://schema.org/Offer">
                 <a data-pjax="0" class="btn btn-lg btn-default pull-right" rel="nofollow" href="<?=
                 Yii::$app->params['admitad'] . urlencode($model->url) ?>">
@@ -45,6 +40,13 @@ use yii\helpers\Url;
                     </span>
                     <span class="product_item__currency" itemprop="priceCurrency" content="KZT">₸</span>
                 </div>
+                <?php if ($model->rating) : ?>
+                    <div class="product_item__rating" itemprop="aggregateRating" itemscope itemtype="http://schema.org/AggregateRating">
+                        <i class="glyphicon glyphicon-star-empty"></i>
+                        Рейтинг <span itemprop="ratingValue"><?= $model->rating ?></span> / 5
+                        <!-- based on <span itemprop="reviewCount">11</span> customer reviews -->
+                    </div>
+                <?php endif; ?>
                 <div class="product_item__available">
                     <link itemprop="availability" href="http://schema.org/InStock"/>
                     <i class="glyphicon glyphicon-ok-circle"></i> Есть в наличии

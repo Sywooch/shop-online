@@ -41,7 +41,7 @@ $this->params['breadcrumbs'] = [Html::decode($product->name)];
                     'src' => $picture->src, // small
                     'alt' => Html::encode($product->name),
                     'options' => ['title' => Html::encode($product->name),],
-                    'clientOptions' => ['title' => Html::encode($product->name),'class' => 'img-thumbnail',],
+                    'clientOptions' => ['title' => Html::encode($product->name), 'class' => 'img-thumbnail',],
                 ];
             }
             echo \dosamigos\gallery\Gallery::widget(['items' => $items]);
@@ -58,7 +58,8 @@ $this->params['breadcrumbs'] = [Html::decode($product->name)];
                     <td><span class="label label-success">Есть</span></td>
                 </tr>
                 <tr>
-                    <th><i class="glyphicon glyphicon-globe"></i> Доставка в <?= Html::encode($this->context->city->name) ?></th>
+                    <th><i class="glyphicon glyphicon-globe"></i> Доставка
+                        в <?= Html::encode($this->context->city->name) ?></th>
                     <td><span class="label label-success">Есть</span></td>
                 </tr>
                 <tr>
@@ -72,7 +73,7 @@ $this->params['breadcrumbs'] = [Html::decode($product->name)];
                 <tr>
                     <th><i class="glyphicon glyphicon-usd"></i> Розничная цена</th>
                     <td>
-                        <div class="price" itemprop="offers" itemscope itemtype="http://schema.org/Offer">
+                        <div itemprop="offers" itemscope itemtype="http://schema.org/Offer">
                             <span itemprop="price" content="<?= Currency::kzt($product->price, $product->currency) ?>">
                                 <?= Currency::kzt($product->price, $product->currency) ?>
                             </span>
@@ -85,7 +86,7 @@ $this->params['breadcrumbs'] = [Html::decode($product->name)];
                     <th><!--Лучший поставщик--></th>
                     <td>
                         <a class="btn btn-danger" rel="nofollow" itemprop="url"
-                           href="<?= Yii::$app->params['admitad'] . urlencode($product->url) ?>" >
+                           href="<?= Yii::$app->params['admitad'] . urlencode($product->url) ?>">
                             <span class="glyphicon glyphicon-shopping-cart"></span> Купить
                         </a>
                     </td>
@@ -125,12 +126,44 @@ $this->params['breadcrumbs'] = [Html::decode($product->name)];
             </table>
             <div style="text-align: center;">
                 <a class="btn btn-lg btn-danger" rel="nofollow" itemprop="url"
-                   href="<?= Yii::$app->params['admitad'] . urlencode($product->url) ?>" >
+                   href="<?= Yii::$app->params['admitad'] . urlencode($product->url) ?>">
                     <span class="glyphicon glyphicon-shopping-cart"></span> Купить
                 </a>
             </div>
         </div>
     </div>
+
+    <?php if (count($product->comments) > 0) : ?>
+        <div class="row">
+            <div class="col-sm-12">
+                <h2>Отзывы покупателей с AliExpress</h2>
+                <?php foreach ($product->comments as $comment): ?>
+                    <div class="row">
+                        <div class="col-xs-8">
+                            <blockquote class="product__comment">
+                                <?= $comment->text ?>
+                                <footer><?= $comment->date . ", " . $comment->buyer ?></footer>
+                            </blockquote>
+                        </div>
+                        <div class="col-xs-4">
+                            <?php
+                            $items = [];
+                            foreach (explode(';', $comment->photos) as $photo) {
+                                $items[] = [
+                                    'url' => $photo,
+                                    'src' => $photo,
+                                    'clientOptions' => ['class' => 'product__comment__img img-thumbnail'],
+                                ];
+                            }
+                            echo \dosamigos\gallery\Gallery::widget(['items' => $items,
+                                'templateOptions' => ['id' => "comment_" . $comment->id]]);
+                            ?>
+                        </div>
+                    </div>
+                <?php endforeach; ?>
+            </div>
+        </div>
+    <?php endif; ?>
 
     <hr>
 
@@ -138,7 +171,9 @@ $this->params['breadcrumbs'] = [Html::decode($product->name)];
         <div class="col-sm-12">
             <h2>Посмотрите так же похожие модели</h2>
             <?= RandomOffer::widget(['productId' => $product->id,
-                'tags' => array_map(function($item) { return $item->name; }, $product->tags)]) ?>
+                'tags' => array_map(function ($item) {
+                    return $item->name;
+                }, $product->tags)]) ?>
         </div>
     </div>
 </div>

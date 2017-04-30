@@ -23,7 +23,7 @@ class Product extends ActiveRecord
     {
         return [
             ['id', 'safe'],
-            ['price', 'double'],
+            [['price', 'rating'], 'double'],
             ['currency', 'in', 'range' => array_keys(self::getCurrencyList())],
             [['url'], 'unique'],
             [['url', 'image'], 'url'], // ?
@@ -69,6 +69,11 @@ class Product extends ActiveRecord
     {
         return $this->hasMany(Tag::className(), ['id' => 'tag_id'])
             ->viaTable('tag_for_product', ['product_id' => 'id']);
+    }
+
+    public function getComments()
+    {
+        return $this->hasMany(Comment::className(), ['product_id' => 'id'])->orderBy('date DESC');
     }
 
     /**

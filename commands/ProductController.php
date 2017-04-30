@@ -3,6 +3,7 @@
 namespace app\commands;
 
 use app\components\AliExpressParser;
+use app\models\Comment;
 use app\models\Product;
 use app\models\admin\Source;
 use yii\console\Controller;
@@ -42,6 +43,20 @@ class ProductController extends Controller
             die(print_r($product->errors, true));
         }
 
+        $feedbacks = $parser->getProductFeedback($product->url);
+        foreach ($feedbacks as $feedback) {
+            $date = (new \DateTime($feedback['date']))->format("Y-m-d H:i:s");
+            /** @var $comment Comment */
+            $comment = Comment::findOne(['product_id' => $product->id, 'date' => $date]);
+            if ($comment) {
+                continue;
+            }
+            $feedback['date'] = $date;
+            $feedback['photos'] = join(";", $feedback['photos']);
+
+            Comment::add($product, $feedback);
+        }
+
         echo "Готово!\n";
     }
 
@@ -78,4 +93,10 @@ class ProductController extends Controller
         echo "Готово!\n";
     }
 
+    public function actionTest()
+    {
+        $url = 'https://ru.aliexpress.com/store/product/2015-new-super-wide-tire-bike-Snowmobile-ATV-26-bicycle-disc-brakes-bicycle-shock-absorbers-Russia/1803142_32344137836.html';
+        $parser = new AliExpressParser();
+        $parser->getProductFeedback($url);
+    }
 }

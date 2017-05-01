@@ -33,11 +33,11 @@ $this->title = $title;
             'itemOptions' => ['class' => 'item'],
             'pager' => [
                 'class' => \kop\y2sp\ScrollPager::className(),
-                'negativeMargin' => 500,
-                'triggerOffset' => 2,
+                'negativeMargin' => 1000,
+                'triggerOffset' => 1000,
                 'delay' => 100,
-//                'triggerText' => 'Load More news',
-//                'noneLeftText' => '',
+                'triggerText' => Html::button("Ещё больше товаров", ['class' => 'btn btn-lg btn-primary']),
+                'noneLeftText' => '',
             ],
         ]);
         \yii\widgets\Pjax::end();

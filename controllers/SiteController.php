@@ -140,20 +140,20 @@ class SiteController extends Controller
      */
     public function actionSitemap($file)
     {
-        $lastProduct = Product::find()->orderBy(['created' => SORT_DESC])->one();
+        $lastProduct = Product::find()->where('moderated=1')->orderBy(['created' => SORT_DESC])->one();
 
         switch ($file) {
             case 'sitemap':
                 $sitemaps = [
                     [
                         'loc' => Yii::$app->params['siteUrl'] . 'main.xml',
-                        'lastmod' => $lastProduct->created,
+                        'lastmod' => (new \DateTime($lastProduct->created))->format("Y-m-d\TH:i:s+06:00"),
                     ],
                 ];
                 foreach (City::find()->all() as $city) {
                     $sitemaps[] = [
                         'loc' => Yii::$app->params['siteUrl'] . $city->url . '.xml',
-                        'lastmod' => $lastProduct->created,
+                        'lastmod' => (new \DateTime($lastProduct->created))->format("Y-m-d\TH:i:s+06:00"),
                     ];
                 }
                 return $this->renderPartial('xml_sitemapindex', ['sitemaps' => $sitemaps]);
@@ -163,12 +163,12 @@ class SiteController extends Controller
                 $items = [];
                 foreach (City::find()->all() as $city) {
                     $items[] = [
-                        'loc' => trim(Yii::$app->params['siteUrl'], '\\\/') . Url::toRoute([
+                        'loc' => Url::toRoute([
                                 'site/index',
                                 'city' => $city->url,
-                            ]),
+                            ], true),
                         'changefreq' => 'daily',
-                        'lastmod' => $lastProduct->created,
+                        'lastmod' => (new \DateTime($lastProduct->created))->format("Y-m-d\TH:i:s+06:00"),
                         'priority' => '1',
                     ];
                 }
@@ -178,23 +178,20 @@ class SiteController extends Controller
 
             default:
                 $this->city = City::findOne(['url' => strip_tags($file)]);
-//                if (!$this->city) {
-//                    $this->city = City::findOne(['url' => self::CITY_DEFAULT]);
-//                }
                 if (!$this->city) {
                     throw new NotFoundHttpException();
                 }
                 $items = [];
                 foreach (Product::find()->andWhere(['moderated' => true])->all() as $product) {
                     $items[] = [
-                        'loc' => trim(Yii::$app->params['siteUrl'], '\\\/') . Url::toRoute([
+                        'loc' => Url::toRoute([
                                 'site/product',
                                 'city' => $this->city->url,
                                 'seoUrl' => $product->seo_url,
                                 'id' => $product->id,
-                            ]),
+                            ], true),
                         'changefreq' => 'daily',
-                        'lastmod' => $product->created,
+                        'lastmod' => (new \DateTime($product->created))->format("Y-m-d\TH:i:s+06:00"),
                         'priority' => '1',
                     ];
                 }

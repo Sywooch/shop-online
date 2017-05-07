@@ -356,7 +356,7 @@ class AdminController extends Controller
             if ($model->delete()) {
                 Yii::$app->session->addFlash("success", 'Товар успешно удалён!');
             } else {
-                Yii::$app->session->addFlash("error", 'Ошибка при добавлении товара! Вероятно, такой товар уже есть...');
+                Yii::$app->session->addFlash("error", 'Ошибка при удалении товара!');
             }
         }
 

@@ -118,8 +118,8 @@ $this->params['breadcrumbs'] = [
         ]) ?></div>
     <div class="col-sm-6">
         <?= Html::submitButton('Сохранить', ['class' => 'btn btn-primary']) ?>
-        <?= Html::a('Удалить', ['product-delete', 'id' => $product->id],
-            ['class' => 'btn btn-danger', 'data-confirm' => 'Товар будет безвозвратно удален. Продолжить?']) ?>
+        <?= Html::a('Удалить', ['product-delete', 'id' => $product->id], ['class' => 'btn btn-danger',
+            'data-method' => 'post', 'data-confirm' => 'Товар будет безвозвратно удален. Продолжить?']) ?>
     </div>
 </div>
 <?php $form->end(); ?>

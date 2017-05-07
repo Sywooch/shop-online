@@ -93,7 +93,7 @@ echo GridView::widget([
                 },
                 'product-delete' => function ($url, $model, $key) {
                     return Html::a('<i class="glyphicon glyphicon-trash"></i>', $url, ['title' => 'Удалить',
-                        'data-confirm' => 'Товар будет безвозвратно удален. Продолжить?']);
+                        'data-method' => 'post', 'data-confirm' => 'Товар будет безвозвратно удален. Продолжить?']);
                 },
             ],
             'visibleButtons' => [

@@ -1,11 +1,7 @@
 User-agent: *
-Disallow: /assets
-Disallow: /css
 Disallow: /images
 
 User-agent: Yandex
-Disallow: /assets
-Disallow: /css
 Disallow: /images
 
 Host: shop-online.kz

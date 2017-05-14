@@ -82,6 +82,8 @@ $config = [
 
         'admitad' => 'https://alitems.com/g/1e8d114494745ac730c816525dc3e8/?ulp=',
 
+        'auth' => file_exists(__DIR__ . '/auth.php') ? require(__DIR__ . '/auth.php') : [],
+
         // todo добавить автопостинг в twitter, сейчас настроен экспорт в твиттер из ВКонтакте
         'twitter' => file_exists(__DIR__ . '/twitter.php') ? require(__DIR__ . '/twitter.php') : null,
         'vk' => file_exists(__DIR__ . '/vk.php') ? require(__DIR__ . '/vk.php') : null,

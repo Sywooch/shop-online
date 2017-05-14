@@ -69,7 +69,7 @@ echo Nav::widget([
 echo Nav::widget([
     'options' => ['class' => 'navbar-nav navbar-right'],
     'items' => Yii::$app->user->isGuest ? [] : [
-        ['label' => 'Выход', 'url' => ['logout']],
+        ['label' => 'Выход', 'url' => ['logout'], 'linkOptions' => ['data-method' => 'post']],
     ],
 ]);
 NavBar::end();

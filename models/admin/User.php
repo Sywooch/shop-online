@@ -10,22 +10,12 @@ class User extends \yii\base\Object implements \yii\web\IdentityInterface
     public $authKey;
     public $accessToken;
 
-    private static $users = [
-        '100' => [
-            'id' => '100',
-            'username' => 'admin',
-            'password' => '$2y$13$DZwto.PiS.AfUM1F1JZFp.ckxYMfALJFjjf0t7gCsNvq8R0nklg8C',
-            'authKey' => 'test100keye0d6efc4580e3719fab2be23569797bf07397391',
-            'accessToken' => '100-tokene0d6efc4580e3719fab2be23569797bf07397391',
-        ]
-    ];
-
     /**
      * @inheritdoc
      */
     public static function findIdentity($id)
     {
-        return isset(self::$users[$id]) ? new static(self::$users[$id]) : null;
+        return isset(\Yii::$app->params['auth'][$id]) ? new static(\Yii::$app->params['auth'][$id]) : null;
     }
 
     /**
@@ -33,7 +23,7 @@ class User extends \yii\base\Object implements \yii\web\IdentityInterface
      */
     public static function findIdentityByAccessToken($token, $type = null)
     {
-        foreach (self::$users as $user) {
+        foreach (\Yii::$app->params['auth'] as $user) {
             if ($user['accessToken'] === $token) {
                 return new static($user);
             }
@@ -49,7 +39,7 @@ class User extends \yii\base\Object implements \yii\web\IdentityInterface
      */
     public static function findByUsername($username)
     {
-        foreach (self::$users as $user) {
+        foreach (\Yii::$app->params['auth'] as $user) {
             if (strcasecmp($user['username'], $username) === 0) {
                 return new static($user);
             }

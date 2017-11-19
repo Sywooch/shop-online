@@ -5,6 +5,26 @@ namespace app\models;
 use app\components\AliExpressParser;
 use yii\db\ActiveRecord;
 
+/**
+ * Class Product
+ * @package app\models
+ *
+ * @property string $currency
+ * @property double $price
+ * @property string $seo_url
+ * @property string $url
+ * @property string $image
+ * @property string $description
+ * @property double $rating
+ * @property bool $moderated
+ * @property string $created
+ * @property string $updated
+ *
+ * @property Comment[] $comments
+ * @property Picture[] $pictures
+ * @property Property[] $properties
+ * @property Tag[] $tags
+ */
 class Product extends ActiveRecord
 {
     // Валюты
@@ -14,11 +34,17 @@ class Product extends ActiveRecord
     /** @var bool Постинг в соцсети */
     public $posting;
 
+    /**
+     * @inheritdoc
+     */
     public static function tableName()
     {
         return 'product';
     }
 
+    /**
+     * @inheritdoc
+     */
     public function rules()
     {
         return [
@@ -35,9 +61,11 @@ class Product extends ActiveRecord
             [['name', 'url', 'price', 'currency', 'image'], 'required'],
             [['posting'], 'safe'],
         ];
-
     }
 
+    /**
+     * @inheritdoc
+     */
     public function attributeLabels()
     {
         return [
@@ -55,22 +83,34 @@ class Product extends ActiveRecord
         ];
     }
 
+    /**
+     * @return \yii\db\ActiveQuery
+     */
     public function getPictures()
     {
         return $this->hasMany(Picture::className(), ['product_id' => 'id']);
     }
 
+    /**
+     * @return \yii\db\ActiveQuery
+     */
     public function getProperties()
     {
         return $this->hasMany(Property::className(), ['product_id' => 'id'])->orderBy('id');
     }
 
+    /**
+     * @return \yii\db\ActiveQuery
+     */
     public function getTags()
     {
         return $this->hasMany(Tag::className(), ['id' => 'tag_id'])
             ->viaTable('tag_for_product', ['product_id' => 'id']);
     }
 
+    /**
+     * @return \yii\db\ActiveQuery
+     */
     public function getComments()
     {
         return $this->hasMany(Comment::className(), ['product_id' => 'id'])->orderBy('date DESC');

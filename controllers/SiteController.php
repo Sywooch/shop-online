@@ -1,27 +1,22 @@
 <?php
+
 namespace app\controllers;
 
 use app\components\Currency;
 use app\models\CatalogueFilter;
-use app\models\Category;
 use app\models\City;
-use app\models\Offer;
-use app\models\OfferFilter;
 use app\models\Product;
-use app\models\Vendor;
 use Yii;
 use yii\base\Exception;
-use yii\filters\AccessControl;
-use yii\filters\VerbFilter;
-use yii\helpers\Html;
 use yii\helpers\Url;
-use yii\web\BadRequestHttpException;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
-use yii\web\Response;
-use yii\data\ActiveDataProvider;
-use yii\helpers\ArrayHelper;
 
+
+/**
+ * Class SiteController
+ * @package app\controllers
+ */
 class SiteController extends Controller
 {
 
@@ -75,16 +70,15 @@ class SiteController extends Controller
             $this->redirect(["/" . $city]);
         }
 
-        $this->city = City::find()->where(['url' => strip_tags($city)])->one();
+        $this->city = City::find()->where(['url' => $city])->one();
         if (!$this->city) {
             $this->city = City::find()->where(['url' => 'kazakhstan'])->one();
         }
 
+        $title = Yii::$app->params['siteName'] . " с доставкой по {$this->city->po} на " . Yii::$app->params['name'];
 
         $filter = new CatalogueFilter();
         $dataProvider = $filter->search(Yii::$app->request->post());
-
-        $title = Yii::$app->params['siteName'] . " с доставкой по {$this->city->po} на " . Yii::$app->params['name'];
 
         return $this->render('index', [
             'filter' => $filter,
@@ -103,16 +97,16 @@ class SiteController extends Controller
      * @return string
      * @throws Exception
      */
-    public function actionProduct($city, $id)
+    public function actionProduct($city, $seoUrl, $id)
     {
         /* @var City */
-        $this->city = City::findOne(['url' => strip_tags($city)]);
+        $this->city = City::findOne(['url' => $city]);
         if (!$this->city) {
             $this->city = City::findOne(['url' => self::CITY_DEFAULT]);
         }
 
         /* @var Product */
-        $this->product = Product::find()->andWhere("moderated=1 AND id=:id", [':id' => $id])->one();
+        $this->product = Product::find()->where(['moderated' => true, 'id' => $id])->one();
         if (!$this->product) {
             throw new NotFoundHttpException("Товар не определен!");
         }
@@ -140,7 +134,7 @@ class SiteController extends Controller
      */
     public function actionSitemap($file)
     {
-        $lastProduct = Product::find()->where('moderated=1')->orderBy(['created' => SORT_DESC])->one();
+        $lastProduct = Product::find()->where(['moderated' => true])->orderBy(['created' => SORT_DESC])->one();
 
         switch ($file) {
             case 'sitemap':
@@ -164,9 +158,9 @@ class SiteController extends Controller
                 foreach (City::find()->all() as $city) {
                     $items[] = [
                         'loc' => Url::toRoute([
-                                'site/index',
-                                'city' => $city->url,
-                            ], true),
+                            'site/index',
+                            'city' => $city->url,
+                        ], true),
                         'changefreq' => 'daily',
                         'lastmod' => (new \DateTime($lastProduct->created))->format("Y-m-d\TH:i:s+06:00"),
                         'priority' => '1',
@@ -181,15 +175,16 @@ class SiteController extends Controller
                 if (!$this->city) {
                     throw new NotFoundHttpException();
                 }
+
                 $items = [];
                 foreach (Product::find()->andWhere(['moderated' => true])->all() as $product) {
                     $items[] = [
                         'loc' => Url::toRoute([
-                                'site/product',
-                                'city' => $this->city->url,
-                                'seoUrl' => $product->seo_url,
-                                'id' => $product->id,
-                            ], true),
+                            'site/product',
+                            'city' => $this->city->url,
+                            'seoUrl' => $product->seo_url,
+                            'id' => $product->id,
+                        ], true),
                         'changefreq' => 'daily',
                         'lastmod' => (new \DateTime($product->created))->format("Y-m-d\TH:i:s+06:00"),
                         'priority' => '1',

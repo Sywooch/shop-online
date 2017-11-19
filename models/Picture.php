@@ -4,6 +4,10 @@ namespace app\models;
 
 use yii\db\ActiveRecord;
 
+/**
+ * Class Picture
+ * @package app\models
+ */
 class Picture extends ActiveRecord
 {
 //    public static function tableName()
@@ -11,6 +15,9 @@ class Picture extends ActiveRecord
 //        return 'picture';
 //    }
 
+    /**
+     * @inheritdoc
+     */
     public function rules()
     {
         return [
@@ -26,6 +33,9 @@ class Picture extends ActiveRecord
         ];
     }
 
+    /**
+     * @inheritdoc
+     */
     public function attributeLabels()
     {
         return [
@@ -34,6 +44,11 @@ class Picture extends ActiveRecord
         ];
     }
 
+    /**
+     * @param Product $product
+     * @param $src
+     * @return bool
+     */
     public static function add(Product $product, $src)
     {
         $model = new self();

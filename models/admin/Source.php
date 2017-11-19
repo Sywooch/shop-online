@@ -5,13 +5,28 @@ namespace app\models\admin;
 use yii\db\ActiveRecord;
 use yii\db\Expression;
 
+/**
+ * Class Source
+ * @package app\models\admin
+ *
+ * @property string $url
+ * @property string $pattern
+ * @property bool $blocked
+ * @property string $used
+ */
 class Source extends ActiveRecord
 {
+    /**
+     * @inheritdoc
+     */
     public static function tableName()
     {
         return 'source';
     }
 
+    /**
+     * @inheritdoc
+     */
     public function rules()
     {
         return [
@@ -23,6 +38,9 @@ class Source extends ActiveRecord
         ];
     }
 
+    /**
+     * @inheritdoc
+     */
     public function attributeLabels()
     {
         return [
@@ -33,12 +51,18 @@ class Source extends ActiveRecord
         ];
     }
 
+    /**
+     * @param bool $touch
+     * @return array|null|ActiveRecord
+     */
     public static function getNextSource($touch = false)
     {
         $model = self::find()->where(['blocked' => '0'])->orderBy(['used' => SORT_ASC])->one();
+
         if ($touch && $model) {
             $model->updateAttributes(['used' => new Expression('now()')]);
         }
+
         return $model;
     }
 }

@@ -5,6 +5,10 @@ namespace app\models;
 use yii\base\Model;
 use yii\data\ActiveDataProvider;
 
+/**
+ * Class CatalogueFilter
+ * @package app\models
+ */
 class CatalogueFilter extends Model
 {
     /** @var int - количество товаров на странице */
@@ -22,6 +26,9 @@ class CatalogueFilter extends Model
     // todo добавить выбор валют
     public $currency;
 
+    /**
+     * @return array
+     */
     public function rules()
     {
         return [
@@ -31,7 +38,10 @@ class CatalogueFilter extends Model
         ];
     }
 
-
+    /**
+     * @param $params
+     * @return ActiveDataProvider
+     */
     public function search($params)
     {
         $query = Product::find()->joinWith(['tags', 'properties'])->where(['moderated' => true])->distinct();

@@ -4,10 +4,22 @@ namespace app\models\admin;
 
 use yii\data\ActiveDataProvider;
 
+/**
+ * Class SourceFilter
+ * @package app\models\admin
+ *
+ * @property int $pageSize
+ */
 class SourceFilter extends Source
 {
+    /**
+     * @var int
+     */
     public $pageSize = 30;
 
+    /**
+     * @inheritdoc
+     */
     public function rules()
     {
         return [
@@ -25,6 +37,10 @@ class SourceFilter extends Source
 //        ];
 //    }
 
+    /**
+     * @param $params
+     * @return ActiveDataProvider
+     */
     public function search($params)
     {
         $query = Source::find();

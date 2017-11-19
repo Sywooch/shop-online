@@ -4,9 +4,22 @@ namespace app\models;
 
 use yii\db\ActiveRecord;
 
+/**
+ * Class Comment
+ * @package app\models
+ *
+ * @property int $product_id
+ * @property string $date
+ * @property string $buyer
+ * @property string $text
+ * @property string $photos
+ */
 class Comment extends ActiveRecord
 {
 
+    /**
+     * @inheritdoc
+     */
     public function rules()
     {
         return [
@@ -25,6 +38,9 @@ class Comment extends ActiveRecord
         ];
     }
 
+    /**
+     * @inheritdoc
+     */
     public function attributeLabels()
     {
         return [
@@ -35,6 +51,11 @@ class Comment extends ActiveRecord
         ];
     }
 
+    /**
+     * @param Product $product
+     * @param array $attributes
+     * @return bool
+     */
     public static function add(Product $product, $attributes = [])
     {
         $model = new self();

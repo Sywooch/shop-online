@@ -5,13 +5,29 @@ use Yii;
 use yii\db\ActiveRecord;
 use yii\validators\FilterValidator;
 
+/**
+ * Class Tag
+ * @package app\models
+ *
+ * @property string $name
+ *
+ * @property Product[] $products
+ * @property Tag[] $tags
+ */
 class Tag extends ActiveRecord
 {
+
+    /**
+     * @inheritdoc
+     */
     public static function tableName()
     {
         return 'tag';
     }
 
+    /**
+     * @inheritdoc
+     */
     public function rules()
     {
         return [
@@ -21,6 +37,9 @@ class Tag extends ActiveRecord
         ];
     }
 
+    /**
+     * @inheritdoc
+     */
     public function attributeLabels()
     {
         return [

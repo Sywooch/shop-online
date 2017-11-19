@@ -2,9 +2,18 @@
 
 namespace app\models\admin;
 
+/**
+ * Class User
+ * @package app\models\admin
+ *
+ * @property string $username
+ * @property string $password
+ * @property string $authKey
+ * @property string $accessToken
+ */
 class User extends \yii\base\Object implements \yii\web\IdentityInterface
 {
-    public $id;
+//    public $id;
     public $username;
     public $password;
     public $authKey;

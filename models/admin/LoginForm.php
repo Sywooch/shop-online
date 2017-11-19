@@ -2,12 +2,34 @@
 
 namespace app\models\admin;
 
+/**
+ * Class LoginForm
+ * @package app\models\admin
+ *
+ * @property string $username
+ * @property string $password
+ * @property bool $rememberMe
+ */
 class LoginForm extends \yii\base\Model
 {
+    /**
+     * @var string
+     */
     public $username;
+
+    /**
+     * @var string
+     */
     public $password;
+
+    /**
+     * @var bool
+     */
     public $rememberMe = true;
 
+    /**
+     * @var bool|User
+     */
     private $_user = false;
 
     /**

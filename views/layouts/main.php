@@ -17,6 +17,8 @@ use app\widgets\ScrollUp\ScrollUp;
 
 AppAsset::register($this);
 
+$this->registerLinkTag(['rel' => 'canonical', 'href' => Url::canonical()]);
+
 $this->beginPage();
 ?><!DOCTYPE html>
 <html lang="<?= Yii::$app->language ?>" xmlns="http://www.w3.org/1999/xhtml" xmlns:og="http://ogp.me/ns#">
@@ -146,7 +148,9 @@ $this->beginPage();
         </div>
     </div>
 </footer>
+
 <?= ScrollUp::widget() ?>
+
 <?php $this->endBody() ?>
 </body>
 </html>

@@ -6,12 +6,28 @@ use app\models\Product;
 use yii\data\ActiveDataProvider;
 use yii\helpers\ArrayHelper;
 
+/**
+ * Class ProductFilter
+ * @package app\models\admin
+ *
+ * @property int $pageSize
+ * @property string $tag
+ */
 class ProductFilter extends Product
 {
+    /**
+     * @var int
+     */
     public $pageSize = 50;
 
+    /**
+     * @var string
+     */
     public $tag;
 
+    /**
+     * @inheritdoc
+     */
     public function rules()
     {
         return [
@@ -19,6 +35,9 @@ class ProductFilter extends Product
         ];
     }
 
+    /**
+     * @inheritdoc
+     */
     public function attributeLabels()
     {
         return ArrayHelper::merge(parent::attributeLabels(), [
@@ -27,6 +46,10 @@ class ProductFilter extends Product
         ]);
     }
 
+    /**
+     * @param $params
+     * @return ActiveDataProvider
+     */
     public function search($params)
     {
         $query = self::find()->joinWith(['tags'])->distinct();

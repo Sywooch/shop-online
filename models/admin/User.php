@@ -13,7 +13,7 @@ namespace app\models\admin;
  */
 class User extends \yii\base\Object implements \yii\web\IdentityInterface
 {
-//    public $id;
+    public $id;
     public $username;
     public $password;
     public $authKey;

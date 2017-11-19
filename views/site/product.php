@@ -49,6 +49,17 @@ $this->params['breadcrumbs'] = [Html::decode($product->name)];
         </div>
         <div class="col-sm-7">
 
+            <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+            <!-- адаптивный -->
+            <ins class="adsbygoogle"
+                 style="display:block"
+                 data-ad-client="ca-pub-3550073859494126"
+                 data-ad-slot="1629332681"
+                 data-ad-format="auto"></ins>
+            <script>
+                (adsbygoogle = window.adsbygoogle || []).push({});
+            </script>
+
             <?= $product->description ? "<h2>Краткое описание</h2>" .
                 Text::widget(['content' => Html::decode($product->description)]) : "" ?>
 
@@ -93,6 +104,17 @@ $this->params['breadcrumbs'] = [Html::decode($product->name)];
                 </tr>
             </table>
 
+            <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+            <!-- адаптивный -->
+            <ins class="adsbygoogle"
+                 style="display:block"
+                 data-ad-client="ca-pub-3550073859494126"
+                 data-ad-slot="1629332681"
+                 data-ad-format="auto"></ins>
+            <script>
+                (adsbygoogle = window.adsbygoogle || []).push({});
+            </script>
+
             <?= Share42::widget([
                 'title' => $title,
                 'description' => $description,
@@ -124,6 +146,18 @@ $this->params['breadcrumbs'] = [Html::decode($product->name)];
                 <?php endforeach; ?>
                 </tbody>
             </table>
+
+            <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+            <!-- адаптивный -->
+            <ins class="adsbygoogle"
+                 style="display:block"
+                 data-ad-client="ca-pub-3550073859494126"
+                 data-ad-slot="1629332681"
+                 data-ad-format="auto"></ins>
+            <script>
+                (adsbygoogle = window.adsbygoogle || []).push({});
+            </script>
+
             <div style="text-align: center;">
                 <a class="btn btn-lg btn-danger" rel="nofollow" itemprop="url"
                    href="<?= Yii::$app->params['admitad'] . urlencode($product->url) ?>">
@@ -170,10 +204,33 @@ $this->params['breadcrumbs'] = [Html::decode($product->name)];
     <div class="row">
         <div class="col-sm-12">
             <h2>Посмотрите так же похожие модели</h2>
+
+            <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+            <!-- адаптивный -->
+            <ins class="adsbygoogle"
+                 style="display:block"
+                 data-ad-client="ca-pub-3550073859494126"
+                 data-ad-slot="1629332681"
+                 data-ad-format="auto"></ins>
+            <script>
+                (adsbygoogle = window.adsbygoogle || []).push({});
+            </script>
+
             <?= RandomOffer::widget(['productId' => $product->id,
                 'tags' => array_map(function ($item) {
                     return $item->name;
                 }, $product->tags)]) ?>
+
+            <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+            <!-- адаптивный -->
+            <ins class="adsbygoogle"
+                 style="display:block"
+                 data-ad-client="ca-pub-3550073859494126"
+                 data-ad-slot="1629332681"
+                 data-ad-format="auto"></ins>
+            <script>
+                (adsbygoogle = window.adsbygoogle || []).push({});
+            </script>
         </div>
     </div>
 </div>

@@ -23,6 +23,17 @@ $this->title = $title;
     <div class="col-xs-12 col-sm-12 col-md-12">
         <?= \app\widgets\ProductSearch\ProductSearch::widget(['model' => $filter]) ?>
 
+        <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+        <!-- адаптивный -->
+        <ins class="adsbygoogle"
+             style="display:block"
+             data-ad-client="ca-pub-3550073859494126"
+             data-ad-slot="1629332681"
+             data-ad-format="auto"></ins>
+        <script>
+            (adsbygoogle = window.adsbygoogle || []).push({});
+        </script>
+
         <?php
         $pjax = \yii\widgets\Pjax::begin();
         echo ListView::widget([

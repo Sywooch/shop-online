@@ -1,8 +1,10 @@
 User-agent: *
 Disallow: /images
+Disallow: /site/product
 
 User-agent: Yandex
 Disallow: /images
+Disallow: /site/product
 
 Host: shop-online.kz
 Sitemap: http://shop-online.kz/sitemap.xml

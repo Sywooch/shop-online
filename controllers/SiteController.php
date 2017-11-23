@@ -73,7 +73,7 @@ class SiteController extends Controller
 
         $this->city = City::find()->where(['url' => $city])->one();
         if (!$this->city) {
-            $this->city = City::find()->where(['url' => 'kazakhstan'])->one();
+            throw new NotFoundHttpException("Страница не существует!");
         }
 
         $title = Yii::$app->params['siteName'] . " с доставкой по {$this->city->po} на " . Yii::$app->params['name'];

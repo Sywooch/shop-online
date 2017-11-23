@@ -1,10 +1,5 @@
 <?php
-use yii\helpers\Html;
-use yii\helpers\Url;
-use yii\widgets\Breadcrumbs;
-use app\assets\AppAsset;
-use app\models\City;
-use app\widgets\ScrollUp\ScrollUp;
+use app\assets\AppAsset;use app\models\City;use app\widgets\ScrollUp\ScrollUp;use yii\helpers\Html;use yii\helpers\Url;use yii\widgets\Breadcrumbs;
 
 
 /* @var $this \yii\web\View */
@@ -21,18 +16,39 @@ $this->registerLinkTag(['rel' => 'canonical', 'href' => Url::canonical()]);
 
 $this->beginPage();
 ?><!DOCTYPE html>
-<html lang="<?= Yii::$app->language ?>" xmlns="http://www.w3.org/1999/xhtml" xmlns:og="http://ogp.me/ns#">
+<html lang="<?= Yii::$app->language ?>" xmlns="http://www.w3.org/1999/xhtml">
 <head>
     <meta charset="<?= Yii::$app->charset ?>">
     <title><?= Html::encode($this->title) ?></title>
     <?= Html::csrfMetaTags() ?>
     <?php $this->head() ?>
 
+    <!-- Google Analytics -->
+    <script>
+        (function (i, s, o, g, r, a, m) {
+            i['GoogleAnalyticsObject'] = r;
+            i[r] = i[r] || function () {
+                    (i[r].q = i[r].q || []).push(arguments)
+                }, i[r].l = 1 * new Date();
+            a = s.createElement(o),
+                m = s.getElementsByTagName(o)[0];
+            a.async = 1;
+            a.src = g;
+            m.parentNode.insertBefore(a, m)
+        })(window, document, 'script', 'https://www.google-analytics.com/analytics.js', 'ga');
+
+        ga('create', 'UA-30963562-1', 'auto');
+        ga('send', 'pageview');
+    </script>
+    <!-- End Google Analytics -->
+
     <!-- Global site tag (gtag.js) - Google Analytics -->
     <script async src="https://www.googletagmanager.com/gtag/js?id=UA-30963562-1"></script>
     <script>
         window.dataLayer = window.dataLayer || [];
-        function gtag(){dataLayer.push(arguments);}
+        function gtag() {
+            dataLayer.push(arguments);
+        }
         gtag('js', new Date());
 
         gtag('config', 'UA-30963562-1');

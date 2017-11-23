@@ -1,7 +1,7 @@
 
 $(document).on('click', 'a[href^="https://alitems.com/"]', function(event) {
     event.preventDefault();
-    
+
     if (ga != undefined) {
         ga('set', 'transport', 'beacon');
         ga('send', 'event', {

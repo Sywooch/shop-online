@@ -11,6 +11,7 @@ use yii\base\Exception;
 use yii\helpers\Url;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
+use yii\web\Response;
 
 
 /**
@@ -134,6 +135,9 @@ class SiteController extends Controller
      */
     public function actionSitemap($file)
     {
+        Yii::$app->response->format = Response::FORMAT_RAW;
+        Yii::$app->response->headers->add('Content-Type', 'text/xml');
+
         $lastProduct = Product::find()->where(['moderated' => true])->orderBy(['created' => SORT_DESC])->one();
 
         switch ($file) {

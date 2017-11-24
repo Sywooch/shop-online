@@ -29,8 +29,10 @@ use yii\helpers\Url;
             </a>
 
             <div class="product_item__offer bg-primary" itemprop="offers" itemscope itemtype="http://schema.org/Offer">
-                <a data-pjax="0" class="btn btn-lg btn-default pull-right" rel="nofollow" href="<?=
-                Yii::$app->params['admitad'] . urlencode($model->url) ?>">
+                <a data-pjax="0" class="btn btn-lg btn-default pull-right" rel="nofollow"
+                   onclick="ga('send', 'event', 'catalog', 'buy'); return true;"
+                   href="<?= Yii::$app->params['admitad'] . urlencode($model->url) ?>"
+                >
                     <i class="glyphicon glyphicon-shopping-cart"></i> Купить
                 </a>
                 <div class="product_item__price_block">

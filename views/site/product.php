@@ -88,6 +88,7 @@ $this->params['breadcrumbs'] = [Html::decode($product->name)];
                     <th><!--Лучший поставщик--></th>
                     <td>
                         <a class="btn btn-danger" rel="nofollow" itemprop="url"
+                           onclick="ga('send', 'event', 'product-top', 'buy'); return true;"
                            href="<?= Yii::$app->params['admitad'] . urlencode($product->url) ?>">
                             <span class="glyphicon glyphicon-shopping-cart"></span> Купить
                         </a>
@@ -133,6 +134,7 @@ $this->params['breadcrumbs'] = [Html::decode($product->name)];
 
             <div style="text-align: center;">
                 <a class="btn btn-lg btn-danger" rel="nofollow" itemprop="url"
+                   onclick="ga('send', 'event', 'product-bottom', 'buy'); return true;"
                    href="<?= Yii::$app->params['admitad'] . urlencode($product->url) ?>">
                     <span class="glyphicon glyphicon-shopping-cart"></span> Купить
                 </a>

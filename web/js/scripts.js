@@ -1,4 +1,4 @@
-
+/*
 $(document).on('click', 'a[href^="https://alitems.com/"]', function(event) {
     event.preventDefault();
 
@@ -15,3 +15,4 @@ $(document).on('click', 'a[href^="https://alitems.com/"]', function(event) {
         });
     }
 });
+*/

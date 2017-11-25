@@ -29,7 +29,7 @@ use yii\helpers\Url;
             </a>
 
             <div class="product_item__offer bg-primary" itemprop="offers" itemscope itemtype="http://schema.org/Offer">
-                <a data-pjax="0" class="btn btn-lg btn-default pull-right" rel="nofollow"
+                <a data-pjax="0" class="btn btn-lg btn-danger pull-right" rel="nofollow"
                    onclick="ga('send', 'event', 'catalog', 'buy'); return true;"
                    href="<?= Yii::$app->params['admitad'] . urlencode($model->url) ?>"
                 >

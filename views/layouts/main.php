@@ -149,8 +149,8 @@ $this->beginPage();
                     <?php
                     $url = [];
                     if ($this->context->product) {
-                        $url['seo_url'] = $this->context->product->seo_url;
-                        $url['productId'] = $this->context->product->id;
+                        $url['seoUrl'] = $this->context->product->seo_url;
+                        $url['id'] = $this->context->product->id;
                     }
 
                     foreach (City::find()->all() as $city) {

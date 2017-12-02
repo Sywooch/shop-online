@@ -64,8 +64,7 @@ $this->beginPage();
                         clickmap:true,
                         trackLinks:true,
                         accurateTrackBounce:true,
-                        webvisor:true,
-                        ecommerce:"dataLayer"
+                        webvisor:true
                     });
                 } catch(e) { }
             });

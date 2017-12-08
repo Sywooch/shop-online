@@ -7,4 +7,4 @@ Disallow: /images
 Disallow: /site/product
 
 Host: shop-online.kz
-Sitemap: http://shop-online.kz/sitemap.xml
+Sitemap: https://shop-online.kz/sitemap.xml

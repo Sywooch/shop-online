@@ -1,5 +1,9 @@
 RewriteEngine on
 
+RewriteCond %{HTTPS} =off
+RewriteCond %{REMOTE_ADDR} !=192.168.56.101
+RewriteRule (.*) https://%{HTTP_HOST}%{REQUEST_URI} [QSA,L]
+
 RewriteCond %{REQUEST_FILENAME} !-f
 RewriteCond %{REQUEST_FILENAME} !-d
 

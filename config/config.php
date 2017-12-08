@@ -78,7 +78,7 @@ $config = [
         'adminEmail' => 'admin@shop-online.kz',
         'name' => 'Shop-online.KZ',
         'siteName' => 'Только лучшие товары по ценам AliExpress, без переплаты',
-        'siteUrl' => 'http://shop-online.kz/', // https
+        'siteUrl' => 'https://shop-online.kz/', // https
 
         'admitad' => 'https://alitems.com/g/1e8d114494745ac730c816525dc3e8/?ulp=',
 
